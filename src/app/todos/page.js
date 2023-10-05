@@ -48,11 +48,11 @@ export default function ToDos() {
         });
     }
 
-    function toggleTodo(todoId) {
-        fetch(`api/todos/${todoId}`, {method: "put", body: JSON.stringify({done: true})}).then((response) => {
+    function toggleTodo(todoId, status) {
+        fetch(`api/todos/${todoId}`, {method: "put", body: JSON.stringify({done: !status})}).then((response) => {
             if (response.ok) {
                 return response.json().then((updatedTodo) => {
-                    setTodos(todos.map(todo => (todo.id === todoId ? { ...todo, done: true} : todo)));
+                    setTodos(todos.map(todo => (todo.id === todoId ? { ...todo, done: updatedTodo.done} : todo)));
                 })
             } else {
                 console.error("Can't update");
@@ -82,7 +82,7 @@ export default function ToDos() {
                     <Checkbox
                         checked={todo.done}
                         disableRipple
-                        onChange={() => toggleTodo({id: todo.id, done: todo.done})}/>
+                        onChange={() => toggleTodo(todo.id, todo.done)}/>
                 </ListItemIcon>
                 <ListItemText primary={todo.value}/>
             </ListItemButton>

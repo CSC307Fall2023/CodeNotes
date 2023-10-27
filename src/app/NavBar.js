@@ -8,7 +8,8 @@ export default function NavBar() {
   const pathname = usePathname();
   const links = [
     { path: '/', name: 'Home' }, 
-    { path: '/todos', name: 'ToDos' }
+    { path: '/userprofile', name: 'User Profile' },
+    { path: '/notes', name: 'Note Page'}
   ];
 
   return (

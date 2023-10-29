@@ -35,7 +35,7 @@ const noteLabelStyle = {
 
 const toolBoxStyle = {
   backgroundColor: '#D9D9D9',
-  height: '60px',
+  height: '68px',
   width: '100vh'
 };
 

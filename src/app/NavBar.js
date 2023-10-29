@@ -7,8 +7,8 @@ import Link from 'next/link';
 export default function NavBar() {
   const pathname = usePathname();
   const links = [
-    { path: '/', name: 'Home' }, 
-    { path: '/todos', name: 'ToDos' }
+    //{ path: '/', name: 'Home' }, 
+    //{ path: '/todos', name: 'ToDos' }
   ];
 
   return (

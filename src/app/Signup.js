@@ -67,7 +67,7 @@ export default function Signup() {
 
   return (
     <>
-      <Button variant="outlined" color="inherit" onClick={handleSignupButton}>Signup</Button>
+      <Button variant='contained' color="inherit" onClick={handleSignupButton}>Signup</Button>
       {open && <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Signup</DialogTitle>
         <form onSubmit={handleSignup}>

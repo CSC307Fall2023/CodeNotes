@@ -8,8 +8,13 @@ export default function NavBar() {
   const pathname = usePathname();
   const links = [
     { path: '/', name: 'Home' }, 
+<<<<<<< HEAD
     { path: '/userprofile', name: 'User Profile' },
     { path: '/notes', name: 'Note Page'}
+=======
+    { path: '/todos', name: 'ToDos' },
+    { path: '/profile', name: 'Profile' }
+>>>>>>> e84910c37f30a51bf4b68958529b80d3a22b67cf
   ];
 
   return (

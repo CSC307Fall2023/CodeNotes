@@ -16,8 +16,6 @@ const boxStyle = {
 };
 
 
-    
-
 const avatar = {
     width: 250,
     height: 250,
@@ -27,7 +25,7 @@ export default function Note() {
     
     return (
         <Box sx={boxStyle}>
-            <Avatar sx={avatar} alt="MProfile Picture" src="profilePicture.jpeg" />
+            <Avatar sx={avatar} alt="Profile Picture" src="profilePicture.jpeg" />
 
             <h1>Name</h1>
             <h2>Computer Science 2025</h2>

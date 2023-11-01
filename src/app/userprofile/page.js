@@ -3,7 +3,7 @@
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
-//import { styled } from '@material-ui/core/styles';
+import { styled } from '@mui/material/styles';
 
 
 export default function Note() {
@@ -26,40 +26,47 @@ export default function Note() {
     )
 }
 
+
+const NotebookButton = styled(Button)(( { theme }) => ({
+  backgroundColor: 'white', 
+  color: 'black', 
+  border: '4px solid grey', 
+  '&:hover': {
+    backgroundColor: 'grey', 
+    color: 'white',
+  },
+  width: '50%', 
+  paddingTop: '50%',
+}));
+
+
 function ButtonRow() {
-    //const classes = notebookButtonStyles();
+    //const classes = notebookButtonStyles;
 
     return (
-      <Grid container spacing={2}>
-        <Grid item>
-          <Button variant="contained" color="primary">
+      <Grid container direction="row" justifyContent="center" alignItems="center" >
+        <Grid item xl={3} md={3} container direction="row" justifyContent="center" alignItems="center" >
+          <NotebookButton variant="contained" color="primary">
             Notebook 1
-          </Button>
+          </NotebookButton>
         </Grid>
-        <Grid item>
-          <Button variant="contained" color="primary">
+        <Grid item xl={3} md={3} container direction="row" justifyContent="center" alignItems="center" >
+          <NotebookButton variant="contained" color="primary">
             Notebook 2
-          </Button>
+          </NotebookButton>
         </Grid>
-        <Grid item>
-          <Button variant="contained" color="primary">
+        <Grid item xl={3} md={3} container direction="row" justifyContent="center" alignItems="center" >
+          <NotebookButton variant="contained" color="primary">
             Notebook 3
-          </Button>
+          </NotebookButton>
+        </Grid>
+        <Grid item xl={3} md={3} container direction="row" justifyContent="center" alignItems="center" >
+          <NotebookButton variant="contained" color="primary">
+            Notebook 4
+          </NotebookButton>
         </Grid>
       </Grid>
     );
   }
 
-/*
-const notebookButtonStyles = styled(Button)(( { theme }) => ({
-    customButton: {
-        backgroundColor: 'white', 
-        color: 'black', 
-        border: '1px solid grey', 
-        '&:hover': {
-            backgroundColor: 'grey', 
-            color: 'white'
-        },
-    },
-}));
-*/
+

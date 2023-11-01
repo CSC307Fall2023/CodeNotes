@@ -1,6 +1,7 @@
 'use client'
 
 import Box from '@mui/material/Box';
+import Link from 'next/link';
 
 
 
@@ -14,7 +15,9 @@ export default function Note() {
     return (
         <>
             <h2>CSC 307</h2>
-            <h1>HTML and JS Introduction</h1>
+            <h1>User Profile</h1>
+
+            <h2><Link href="./notes">Note</Link></h2>
         
         <Box sx={boxStyle}>
 

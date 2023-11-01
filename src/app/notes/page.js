@@ -1,6 +1,9 @@
 'use client'
 
 import Box from '@mui/material/Box';
+import Link from 'next/link';
+
+import "../styles/global.css"
 
 
 
@@ -12,9 +15,13 @@ export default function Note() {
     };
 
     return (
-        <>
+        <>            
             <h2>CSC 307</h2>
-            <h1>HTML and JS Introduction</h1>
+            <h1>Notepage</h1>
+
+            <div class="profile_page">
+                <p class="text"><Link href="/userprofile">Profile Page</Link></p>
+            </div>
         
         <Box sx={boxStyle}>
 

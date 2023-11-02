@@ -117,11 +117,8 @@ export default function NavBar({ title, domain }) {
     return (
         <>
             <CssBaseline />
-            <AppBar
-                position="static"
-                sx={{ paddingX: 2, background: 'transparent' }}
-            >
-                <Toolbar disableGutters sx={{ background: 'transparent' }}>
+            <AppBar position="static" sx={{ paddingX: 2 }}>
+                <Toolbar disableGutters>
                     <img
                         src="/CalPoly.png"
                         alt="logo"

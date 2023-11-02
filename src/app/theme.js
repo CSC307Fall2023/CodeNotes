@@ -9,6 +9,9 @@ export const theme = createTheme({
         secondary: {
             main: '#BD8B13',
         },
+        background: {
+            default: '#eeeeee',
+        },
     },
     typography: {
         fontFamily: 'sans-serif',
@@ -81,8 +84,8 @@ export const theme = createTheme({
         MuiAppBar: {
             styleOverrides: {
                 root: {
-                    backgroundColor: '#FFFFFF',
-                    color: '#000000',
+                    backgroundColor: '#eeeeee',
+                    color: '#eeeeee',
                     boxShadow: 'none',
                 },
             },
@@ -114,7 +117,7 @@ export const theme = createTheme({
         MuiToolbar: {
             styleOverrides: {
                 root: {
-                    backgroundColor: '#FFFFFF',
+                    backgroundColor: '#eeeeee',
                     color: '#000000',
                 },
             },

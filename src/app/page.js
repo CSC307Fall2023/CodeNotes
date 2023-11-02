@@ -4,7 +4,6 @@ import Container from '@mui/material/Container'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import Signup from './components/Signup'
-import style from './styles/page.css'
 
 export default function Home() {
     const router = useRouter()
@@ -21,10 +20,6 @@ export default function Home() {
 
     return (
         <>
-            <div className="background">
-                <div></div>
-                <div></div>
-            </div>
             <Container maxWidth="xl">
                 <Grid
                     container

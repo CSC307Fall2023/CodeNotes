@@ -1,6 +1,9 @@
 'use client'
 import React from 'react';
 import Box from '@mui/material/Box';
+import Link from 'next/link';
+
+import "../styles/global.css"
 
 const folderBarStyle = {
   backgroundColor: '#D9D9D9',
@@ -45,8 +48,8 @@ export default function Note() {
       <Box sx={folderBarStyle}></Box>
       <div style={contentContainerStyle}>
         <div style={headerStyle}>
-          <h2 style={classNotebookLabelStyle}>    CSC 307</h2>
-          <h1 style={noteLabelStyle}>    HTML and JS Introduction</h1>
+          <h2 style={classNotebookLabelStyle}>CSC 307</h2>
+          <h1 style={noteLabelStyle}>HTML and JS Introduction</h1>
         </div>
         <Box sx={toolBoxStyle}></Box>
       </div>

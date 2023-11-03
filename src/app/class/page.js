@@ -11,6 +11,9 @@ export default function Note() {
         width: '100%', // Span the full width of the screen
     };
 
+
+    
+
     return (
         <>
             <h2>CSC 307</h2>

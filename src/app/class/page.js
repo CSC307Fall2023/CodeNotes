@@ -2,8 +2,6 @@
 
 import Box from '@mui/material/Box';
 
-
-
 export default function Note() {
     const boxStyle = {
         backgroundColor: '#D9D9D9', // Gray color

@@ -1,19 +1,92 @@
-import Image from 'next/image'
+'use client'
+import { Button, Grid, Typography } from '@mui/material'
+import Container from '@mui/material/Container'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
+import Signup from './components/Signup'
 
 export default function Home() {
-  return (
-    <>
-      <h1>Welcome to CSC 307</h1>
-      <p>
-        This application is a Next.js application. It already contains a way to login and sign-up as well as a rough ToDo list application as a way to demonstrate create and update of a todo. 
-      </p>
-      <h2>Documentation</h2>
-      <ul>
-        <li>NextJS: <a href="https://nextjs.org/docs">https://nextjs.org/docs</a></li>
-        <li>Material UI: <a href="https://mui.com/material-ui/getting-started/">https://mui.com/material-ui/getting-started/</a></li>
-        <li>Prisma: <a href="https://www.prisma.io/docs/getting-started">https://www.prisma.io/docs/getting-started</a></li>
-      </ul>
-      <h2></h2>
-    </>
-  )
+    const router = useRouter()
+    const { data: session, status } = useSession()
+
+    function getStartedHandler() {
+        console.log('Get Started')
+        if (status === 'authenticated') {
+            router.push('/notes')
+        } else {
+            router.push('/login')
+        }
+    }
+
+    return (
+        <>
+            <Container maxWidth="xl">
+                <Grid
+                    container
+                    direction="row"
+                    justifyContent="center"
+                    alignItems="center"
+                    spacing={4}
+                    sx={{ minHeight: '90vh' }}
+                >
+                    <Grid item xs={6}>
+                        <Typography
+                            variant="h1"
+                            sx={{
+                                marginBottom: '1rem',
+                            }}
+                        >
+                            What is CodeNotes?
+                        </Typography>
+                        <Typography
+                            variant="body1"
+                            align="justify"
+                            sx={{
+                                marginBottom: '1rem',
+                            }}
+                        >
+                            Praesent quis metus justo. Aenean sollicitudin
+                            lectus congue risus elementum, vitae porta arcu
+                            pharetra. Sed vel tincidunt tellus. In hac habitasse
+                            platea dictumst. Computer Science. Cal Poly. Nullam
+                            mollis pulvinar elit eget porttitor. Ut iaculis nisi
+                            eu mattis commodo. Proin convallis felis ex, sit
+                            amet posuere tortor suscipit quis. Nullam elementum
+                            interdum metus, nec semper orci vestibulum ac. Sed
+                            feugiat nibh id metus finibus, quis fermentum elit
+                            posuere. Nullam luctus sed leo nec rutrum. Aenean
+                            commodo ultrices velit non luctus. Ut tellus turpis,
+                            aliquet a libero nec, aliquam vehicula dui. Nulla
+                            facilisi. Donec ornare gravida est, faucibus
+                            scelerisque elit suscipit sed. Quisque eget lorem
+                            nec felis porta vehicula in in dolor. Nam dictum,
+                            ante non volutpat pellentesque, risus sapien luctus
+                            justo, vitae vestibulum magna ipsum ut velit.
+                        </Typography>
+                        {status === 'authenticated' ? (
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={getStartedHandler}
+                            >
+                                Get Started
+                            </Button>
+                        ) : (
+                            <Signup
+                                buttonText="Get Started"
+                                variant="contained"
+                            />
+                        )}
+                    </Grid>
+                    <Grid item xs={6}>
+                        <img
+                            src="/CodeNotes.png"
+                            alt="CodeNotes"
+                            width="100%"
+                        />
+                    </Grid>
+                </Grid>
+            </Container>
+        </>
+    )
 }

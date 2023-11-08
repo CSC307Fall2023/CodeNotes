@@ -60,10 +60,16 @@ export default function Note() {
 
                 <h1>Name</h1>
                 <h2>Computer Science 2025</h2>
+                <ButtonRow>
+            
+                </ButtonRow>
             </Box>
+          
         </>
     )
+
 }
+
 
 const NotebookButton = styled(Button)(( { theme }) => ({
   backgroundColor: 'white', 

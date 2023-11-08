@@ -63,6 +63,7 @@ export default function Note() {
             </Box>
         </>
     )
+
 }
 
 const NotebookButton = styled(Button)(( { theme }) => ({

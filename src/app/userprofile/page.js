@@ -83,6 +83,11 @@ const NotebookButton = styled(Button)(( { theme }) => ({
   paddingTop: '50%',
 }));
 
+const plusButton = styled(Button)(( {theme }) => ({
+  backgroundColor: 'white',
+  border: 'black'
+}));
+
 
 function ButtonRow() {
     //const classes = notebookButtonStyles;

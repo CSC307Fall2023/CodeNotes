@@ -7,9 +7,9 @@ const inter = Inter({ subsets: ['latin'] })
 const COMPANY_NAME = 'CodeNotes'
 const DOMAIN = 'http://localhost:3000'
 
-export const metadata = {
+/*export const metadata = {
     title: COMPANY_NAME,
-}
+}*/
 
 export default function RootLayout(props) {
     const { children } = props

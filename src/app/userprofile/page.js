@@ -1,5 +1,6 @@
 'use client'
 
+
 import Box from '@mui/material/Box'
 import React, { useState } from 'react'
 import Avatar from '@mui/material/Avatar'
@@ -10,6 +11,14 @@ import Link from 'next/link'
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
+
+import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
+import SearchIcon from '@mui/icons-material/Search';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 
 const boxStyle = {
     backgroundColor: '#D9D9D9', // Gray color
@@ -36,7 +45,10 @@ export default function Note() {
 
     return (
         <>
+            <SearchIcon></SearchIcon>
+            <TextField id="filled-basic" label="Search" variant="filled" />
             <h2>CSC 307</h2>
+
             <h1>User Profile</h1>
 
             <h2>
@@ -56,14 +68,19 @@ export default function Note() {
                     />
                 </IconButton>
 
-                <h1>Name</h1>
+                <h1>STUDENT NAME</h1>
                 <h2>Computer Science 2025</h2>
+                <h2>Cal Poly Email</h2>
+                <h1>Most Recent Notebooks</h1>
+                <ButtonRow>
+            
+                </ButtonRow>
             </Box>
+          
         </>
     )
 
 }
-
 
 const NotebookButton = styled(Button)(( { theme }) => ({
   backgroundColor: 'white', 
@@ -77,32 +94,74 @@ const NotebookButton = styled(Button)(( { theme }) => ({
   paddingTop: '50%',
 }));
 
+const plusButton = styled(Button)(( {theme }) => ({
+  backgroundColor: 'white',
+  border: 'black'
+}));
+
+const ButtonList = ( {items}) => {
+  return (
+    <div>
+    {items.map((item, index) => (
+      <NotebookButton key={index}>{item}</NotebookButton>
+    ))}
+    </div>
+  );
+};
+
+
+// const NewNoteButton = () => {
+//   return (
+//     /*
+//     <Button
+//       //component={Link}
+//       //to="/notes"
+//       //variant="contained"
+//     >
+//     */
+//     <Button>
+//       <IconButton>
+//         <AddCircleOutlineRoundedIcon></AddCircleOutlineRoundedIcon>
+//       </IconButton>
+//       <Typography>Add new notebook</Typography>
+//     </Button>
+//   );
+// }
+
 
 function ButtonRow() {
     //const classes = notebookButtonStyles;
 
     return (
       <Grid container direction="row" justifyContent="center" alignItems="center" >
-        <Grid item xl={3} md={3} container direction="row" justifyContent="center" alignItems="center" >
+        <Grid item xl={2} md={2} container direction="row" justifyContent="right" alignItems="right">
+          <ArrowBackIosIcon></ArrowBackIosIcon>
+        </Grid>
+        <Grid item xl={2} md={2} container direction="row" justifyContent="center" alignItems="center" >
           <NotebookButton variant="contained" color="primary">
             Notebook 1
           </NotebookButton>
         </Grid>
-        <Grid item xl={3} md={3} container direction="row" justifyContent="center" alignItems="center" >
+        <Grid item xl={2} md={2} container direction="row" justifyContent="center" alignItems="center" >
           <NotebookButton variant="contained" color="primary">
             Notebook 2
           </NotebookButton>
         </Grid>
-        <Grid item xl={3} md={3} container direction="row" justifyContent="center" alignItems="center" >
+        <Grid item xl={2} md={2} container direction="row" justifyContent="center" alignItems="center" >
           <NotebookButton variant="contained" color="primary">
             Notebook 3
           </NotebookButton>
         </Grid>
-        <Grid item xl={3} md={3} container direction="row" justifyContent="center" alignItems="center" >
+        <Grid item xl={2} md={2} container direction="row" justifyContent="center" alignItems="center" >
           <NotebookButton variant="contained" color="primary">
             Notebook 4
           </NotebookButton>
         </Grid>
+        <Grid item xl={2} md={2}>
+          <ArrowForwardIosIcon></ArrowForwardIosIcon>
+        </Grid>
       </Grid>
     );
   }
+// make an on click function for the arrow button (ie. onClick = function())
+// when you click the arrow, the pages that the notebook-buttons link to change

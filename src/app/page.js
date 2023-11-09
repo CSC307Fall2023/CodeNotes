@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import Signup from './components/Signup'
 
 export default function Home() {
+
     const router = useRouter()
     const { data: session, status } = useSession()
 

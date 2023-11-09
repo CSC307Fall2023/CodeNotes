@@ -7,6 +7,10 @@ import IconButton from '@mui/material/IconButton'
 import EditIcon from '@mui/icons-material/Edit'
 import Link from 'next/link'
 
+import Grid from '@mui/material/Grid';
+import Button from '@mui/material/Button';
+import { styled } from '@mui/material/styles';
+
 const boxStyle = {
     backgroundColor: '#D9D9D9', // Gray color
     height: '2px', // Adjust the height as needed
@@ -54,7 +58,55 @@ export default function Note() {
 
                 <h1>Name</h1>
                 <h2>Computer Science 2025</h2>
+                <ButtonRow>
+            
+                </ButtonRow>
             </Box>
+          
         </>
     )
+
 }
+
+
+const NotebookButton = styled(Button)(( { theme }) => ({
+  backgroundColor: 'white', 
+  color: 'black', 
+  border: '4px solid grey', 
+  '&:hover': {
+    backgroundColor: 'grey', 
+    color: 'white',
+  },
+  width: '50%', 
+  paddingTop: '50%',
+}));
+
+
+function ButtonRow() {
+    //const classes = notebookButtonStyles;
+
+    return (
+      <Grid container direction="row" justifyContent="center" alignItems="center" >
+        <Grid item xl={3} md={3} container direction="row" justifyContent="center" alignItems="center" >
+          <NotebookButton variant="contained" color="primary">
+            Notebook 1
+          </NotebookButton>
+        </Grid>
+        <Grid item xl={3} md={3} container direction="row" justifyContent="center" alignItems="center" >
+          <NotebookButton variant="contained" color="primary">
+            Notebook 2
+          </NotebookButton>
+        </Grid>
+        <Grid item xl={3} md={3} container direction="row" justifyContent="center" alignItems="center" >
+          <NotebookButton variant="contained" color="primary">
+            Notebook 3
+          </NotebookButton>
+        </Grid>
+        <Grid item xl={3} md={3} container direction="row" justifyContent="center" alignItems="center" >
+          <NotebookButton variant="contained" color="primary">
+            Notebook 4
+          </NotebookButton>
+        </Grid>
+      </Grid>
+    );
+  }

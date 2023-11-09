@@ -70,7 +70,6 @@ export default function Note() {
 
 }
 
-
 const NotebookButton = styled(Button)(( { theme }) => ({
   backgroundColor: 'white', 
   color: 'black', 

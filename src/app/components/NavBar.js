@@ -72,7 +72,11 @@ export default function NavBar({ title, domain }) {
                     <Avatar
                         alt={session.user.name}
                         src={session.user.image}
-                        sx={{ marginLeft: '20px' }}
+                        sx={{
+                            marginLeft: '20px',
+                            height: '30px',
+                            width: '30px',
+                        }}
                     />
                 </Button>
                 <Menu
@@ -122,7 +126,7 @@ export default function NavBar({ title, domain }) {
                     <img
                         src="/CalPoly.png"
                         alt="logo"
-                        height="45"
+                        height="30"
                         position="inline-block"
                         style={{ marginRight: '20px' }}
                     />
@@ -134,17 +138,17 @@ export default function NavBar({ title, domain }) {
                     <img
                         src="/logo.png"
                         alt="logo"
-                        width="40"
-                        height="40"
+                        width={30}
+                        height={30}
                         style={{ marginLeft: '20px', marginRight: '20px' }}
                     />
                     <Typography
-                        variant="h4"
+                        variant="h6"
                         noWrap
                         component="a"
-                        href="/"
                         sx={{
                             textDecoration: 'none',
+                            color: '#154734',
                         }}
                     >
                         {title}
@@ -154,29 +158,7 @@ export default function NavBar({ title, domain }) {
                             flexGrow: 1,
                             display: { xs: 'none', md: 'flex' },
                         }}
-                    >
-                        {links.map((l) => {
-                            const isActive = l.path === pathname
-                            return (
-                                <Button
-                                    variant="contained"
-                                    component={Link}
-                                    href={l.path}
-                                    sx={{
-                                        my: 2,
-                                        color: 'white',
-                                        display: 'block',
-                                        textDecoration: isActive
-                                            ? 'underline'
-                                            : 'inherit',
-                                    }}
-                                    key={l.path}
-                                >
-                                    {l.name}
-                                </Button>
-                            )
-                        })}
-                    </Box>
+                    ></Box>
                     <Box sx={{ flexGrow: 0 }}>
                         <Stack direction="row" spacing={2} alignItems="center">
                             {loginSection}

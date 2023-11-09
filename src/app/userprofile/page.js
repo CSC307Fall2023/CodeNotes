@@ -12,6 +12,11 @@ import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 
+import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
+import SearchIcon from '@mui/icons-material/Search';
+
+import TextField from '@mui/material/TextField';
+
 const boxStyle = {
     backgroundColor: '#D9D9D9', // Gray color
     height: '2px', // Adjust the height as needed
@@ -37,6 +42,8 @@ export default function Note() {
 
     return (
         <>
+            <SearchIcon></SearchIcon>
+            <TextField id="filled-basic" label="Search" variant="filled" />
             <h2>CSC 307</h2>
 
             <h1>User Profile</h1>
@@ -58,11 +65,16 @@ export default function Note() {
                     />
                 </IconButton>
 
-                <h1>Name</h1>
+                <h1>STUDENT NAME</h1>
                 <h2>Computer Science 2025</h2>
+                <h2>Cal Poly Email</h2>
+                <h1>Most Recent Notebooks</h1>
                 <ButtonRow>
             
                 </ButtonRow>
+                <AddCircleOutlineRoundedIcon>
+
+                </AddCircleOutlineRoundedIcon>
             </Box>
           
         </>
@@ -116,3 +128,5 @@ function ButtonRow() {
       </Grid>
     );
   }
+// make an on click function for the arrow button (ie. onClick = function())
+// when you click the arrow, the pages that the notebook-buttons link to change

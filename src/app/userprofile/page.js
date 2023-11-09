@@ -14,8 +14,11 @@ import { styled } from '@mui/material/styles';
 
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
 import SearchIcon from '@mui/icons-material/Search';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 
 const boxStyle = {
     backgroundColor: '#D9D9D9', // Gray color
@@ -72,9 +75,6 @@ export default function Note() {
                 <ButtonRow>
             
                 </ButtonRow>
-                <AddCircleOutlineRoundedIcon>
-
-                </AddCircleOutlineRoundedIcon>
             </Box>
           
         </>
@@ -99,31 +99,66 @@ const plusButton = styled(Button)(( {theme }) => ({
   border: 'black'
 }));
 
+const ButtonList = ( {items}) => {
+  return (
+    <div>
+    {items.map((item, index) => (
+      <NotebookButton key={index}>{item}</NotebookButton>
+    ))}
+    </div>
+  );
+};
+
+
+// const NewNoteButton = () => {
+//   return (
+//     /*
+//     <Button
+//       //component={Link}
+//       //to="/notes"
+//       //variant="contained"
+//     >
+//     */
+//     <Button>
+//       <IconButton>
+//         <AddCircleOutlineRoundedIcon></AddCircleOutlineRoundedIcon>
+//       </IconButton>
+//       <Typography>Add new notebook</Typography>
+//     </Button>
+//   );
+// }
+
 
 function ButtonRow() {
     //const classes = notebookButtonStyles;
 
     return (
       <Grid container direction="row" justifyContent="center" alignItems="center" >
-        <Grid item xl={3} md={3} container direction="row" justifyContent="center" alignItems="center" >
+        <Grid item xl={2} md={2} container direction="row" justifyContent="right" alignItems="right">
+          <ArrowBackIosIcon></ArrowBackIosIcon>
+        </Grid>
+        <Grid item xl={2} md={2} container direction="row" justifyContent="center" alignItems="center" >
           <NotebookButton variant="contained" color="primary">
             Notebook 1
           </NotebookButton>
         </Grid>
-        <Grid item xl={3} md={3} container direction="row" justifyContent="center" alignItems="center" >
+        <Grid item xl={2} md={2} container direction="row" justifyContent="center" alignItems="center" >
           <NotebookButton variant="contained" color="primary">
             Notebook 2
           </NotebookButton>
         </Grid>
-        <Grid item xl={3} md={3} container direction="row" justifyContent="center" alignItems="center" >
+        <Grid item xl={2} md={2} container direction="row" justifyContent="center" alignItems="center" >
           <NotebookButton variant="contained" color="primary">
             Notebook 3
           </NotebookButton>
         </Grid>
-        <Grid item xl={3} md={3} container direction="row" justifyContent="center" alignItems="center" >
+        <Grid item xl={2} md={2} container direction="row" justifyContent="center" alignItems="center" >
           <NotebookButton variant="contained" color="primary">
             Notebook 4
           </NotebookButton>
+        </Grid>
+        <Grid item xl={2} md={2}>
+          <ArrowForwardIosIcon></ArrowForwardIosIcon>
         </Grid>
       </Grid>
     );

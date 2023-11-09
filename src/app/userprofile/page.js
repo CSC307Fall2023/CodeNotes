@@ -36,11 +36,41 @@ const avatar = {
 }
 
 export default function Note() {
-    const [pic, changePic] = useState('profilePicture.jpg')
+    const [pic, changePic] = useState('user.jpg')
 
-    const handleClick = () => {
-        if (pic == 'profilePicture.jpg') changePic('profilePicture2.jpg')
-        else changePic('profilePicture.jpg')
+    const handleClick = (event) => {
+      const file = event.target.files[0];
+      if (file){
+          const f = new FileReader();
+          f.onloadend = () => {
+            changePic(f.result);
+          };
+          f.readAsDataURL(file);
+      }
+    }
+
+    const [isEditing, changeIsEditing] = useState(false);
+    const [info, changeInfo] = useState(
+      {
+        name: 'Student Name',
+        major: 'Cal Poly Information (Major and Year)',
+        email: 'Cal Poly Email'
+      }
+    );
+      
+    const handleEdit = () => {
+      changeIsEditing(true);
+    }
+
+    const handleSave = () => {
+      changeIsEditing(false);
+    }
+
+    const handleInputChange = (key, value) => {
+      changeInfo({
+        ...info,
+        [key]: value,
+      });
     }
 
     return (
@@ -55,11 +85,22 @@ export default function Note() {
                 <Link href="./notes">Note</Link>
             </h2>
             <Box sx={boxStyle}>
+    
+
+                <input
+                    accept="image/*"
+                    id="icon-button-file"
+                    type="file"
+                    onChange={handleClick}
+                    style={{ display: 'none' }}
+                  />
+                  <label htmlFor="icon-button-file">
                 <IconButton
                     color="secondary"
                     aria-label="Edit"
-                    onClick={handleClick}
+                    component="span"
                 >
+                
                     <Avatar
                         sx={avatar}
                         variant="circular"
@@ -67,11 +108,51 @@ export default function Note() {
                         src={pic}
                     />
                 </IconButton>
+                </label>
 
-                <h1>STUDENT NAME</h1>
-                <h2>Computer Science 2025</h2>
-                <h2>Cal Poly Email</h2>
-                <h1>Most Recent Notebooks</h1>
+                <h1 onClick={handleEdit} style={{ lineHeight: '1' }}>
+                    {isEditing ? (
+                        <TextField
+                            id="student-name-input"
+                            label="Student Name"
+                            variant="filled"
+                            value={info.name}
+                            onChange={(e) => handleInputChange('name', e.target.value)}
+                            autoFocus
+                        />
+                    ) : (
+                        info.name
+                    )}
+                </h1>
+                <h2 onClick={handleEdit} style={{ lineHeight: '.1', fontSize: '15px' }}>
+                    {isEditing ? (
+                        <TextField
+                            id="Major-input"
+                            label="Major/Year"
+                            variant="filled"
+                            value={info.major}
+                            onChange={(e) => handleInputChange('major', e.target.value)}
+                            onBlur={handleSave}
+                        />
+                    ) : (
+                        info.major
+                    )}
+                </h2>
+                
+                <h2 onClick={handleEdit} style={{ lineHeight: '.1', fontSize: '15px' }}>
+                    {isEditing ? (
+                        <TextField
+                            id="email-input"
+                            label="Email"
+                            variant="filled"
+                            value={info.email}
+                            onChange={(e) => handleInputChange('email', e.target.value)}
+                            onBlur={handleSave}
+                        />
+                    ) : (
+                        info.email
+                    )}
+                </h2>
                 <ButtonRow>
             
                 </ButtonRow>

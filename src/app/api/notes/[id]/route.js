@@ -7,7 +7,7 @@ function exclude(user, keys) {
     )
 }
 
-// get pre-existing note
+// get pre-existing note with certain id 
 export async function GET(request, { params }) {
     const id = parseInt(params.id)
     if (id) {
@@ -20,7 +20,8 @@ export async function GET(request, { params }) {
     }
 }
 
-// update note 
+// update note with potentially new content or a new title or new notebook id
+// other terms to call this call is: write to note or rename note or move note to new notebook
 export async function PATCH(request, {params}) {
     const id = parseInt(params.id)
     
@@ -41,7 +42,7 @@ export async function PATCH(request, {params}) {
     }
 }
 
-// delete note 
+// delete note with given id
 export async function DELETE(request, {params}) {
     const id = parseInt(params.id)
     
@@ -55,7 +56,7 @@ export async function DELETE(request, {params}) {
     }
 }
 
-// create new note
+// create new note with no content and new title, and connect it to a notebook
 export async function POST(request, { params }) {
     const notebookId = parseInt(params.id);
     const title = parseInt(params.title)

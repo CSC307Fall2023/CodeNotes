@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import prisma from '@/lib/db'
 
-// Get notebook we want 
+// Get notebook we want with id
 export async function GET(request, { params }) {
     const id = parseInt(params.id);
 

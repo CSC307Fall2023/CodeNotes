@@ -150,15 +150,6 @@ export default function Note() {
                         info.email
                     )}
                 </h2>
-                
-                
-                
-                
-                
-                <h1>Most Recent Notebooks</h1>
-                
-                
-                
                 <ButtonRow>
             
                 </ButtonRow>

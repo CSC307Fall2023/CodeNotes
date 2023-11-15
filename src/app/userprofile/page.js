@@ -31,8 +31,8 @@ const boxStyle = {
 }
 
 const avatar = {
-    width: 250,
-    height: 250,
+    width: 125,
+    height: 125,
 }
 
 export default function Note() {
@@ -77,9 +77,6 @@ export default function Note() {
         <>
             <SearchIcon></SearchIcon>
             <TextField id="filled-basic" label="Search" variant="filled" />
-            <h2>CSC 307</h2>
-
-            <h1>User Profile</h1>
 
             <h2>
                 <Link href="./notes">Note</Link>

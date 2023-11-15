@@ -189,9 +189,77 @@ const plusButton = styled(Button)(( {theme }) => ({
   border: 'black'
 }));
 
+const ButtonList = ( {items}) => {
+  return (
+    <div>
+    {items.map((item, index) => (
+      <NotebookButton key={index}>{item}</NotebookButton>
+    ))}
+    </div>
+  );
+};
+
+
+// const NewNoteButton = () => {
+//   return (
+//     /*
+//     <Button
+//       //component={Link}
+//       //to="/notes"
+//       //variant="contained"
+//     >
+//     */
+//     <Button>
+//       <IconButton>
+//         <AddCircleOutlineRoundedIcon></AddCircleOutlineRoundedIcon>
+//       </IconButton>
+//       <Typography>Add new notebook</Typography>
+//     </Button>
+//   );
+// }
 
 function ButtonRow() {
+  const notebooks = ['Notebook 1', 'Notebook 2', 'Notebook 3', 'Notebook 4', 'Notebook 5', 'Notebook 6'];
+  const [startIndex, setStartIndex] = useState(0);
+  const notebooksPerPage = 4;
+
+  const handleNextClick = () => {
+    const newStartIndex = startIndex + notebooksPerPage;
+    if (newStartIndex < notebooks.length) {
+      setStartIndex(newStartIndex);
+    }
+  };
+
+  const handlePrevClick = () => {
+    const newStartIndex = startIndex - notebooksPerPage;
+    if (newStartIndex >= 0) {
+      setStartIndex(newStartIndex);
+    }
+  };
+
+  return (
+    <Grid container direction="row" justifyContent="center" alignItems="center" >
+      <Grid item xl={2} md={2} container direction="row" justifyContent="right" alignItems="right">
+        <ArrowBackIosIcon onClick={handlePrevClick}></ArrowBackIosIcon>
+      </Grid>
+      <Grid item xl={8} md={8} container direction="row" justifyContent="center" alignItems="center" >
+        {notebooks.slice(startIndex, startIndex + notebooksPerPage).map((notebook, index) => (
+          <NotebookButton key={index} variant="contained" color="primary">
+            {notebook}
+          </NotebookButton>
+        ))}
+      </Grid>
+      <Grid item xl={2} md={2}>
+        <ArrowForwardIosIcon onClick={handleNextClick}></ArrowForwardIosIcon>
+      </Grid>
+    </Grid>
+  );
+}
+
+/*
+function ButtonRow() {
     //const classes = notebookButtonStyles;
+    //const notebooks = ['Notebook 1', 'Notebook 2', 'Notebook 3', 'Notebook 4', 'Notebook 5', 'Notebook 6']
 
     return (
       <Grid container direction="row" justifyContent="center" alignItems="center" >
@@ -218,5 +286,6 @@ function ButtonRow() {
       </Grid>
     );
   }
+*/
 // make an on click function for the arrow button (ie. onClick = function())
 // when you click the arrow, the pages that the notebook-buttons link to change

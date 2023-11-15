@@ -18,6 +18,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 
 const boxStyle = {
     backgroundColor: '#D9D9D9', // Gray color
@@ -155,9 +156,9 @@ export default function Note() {
                 <ButtonRow>
             
                 </ButtonRow>
-                <AddCircleOutlineRoundedIcon>
+                <NewNoteButton>
 
-                </AddCircleOutlineRoundedIcon>
+                </NewNoteButton>
             </Box>
           
         </>
@@ -173,8 +174,10 @@ const NotebookButton = styled(Button)(( { theme }) => ({
     backgroundColor: 'grey', 
     color: 'white',
   },
-  width: '20%', 
-  paddingTop: '20%',
+  width: 'auto', 
+  height: 'auto',
+  aspectRatio: 1/1,
+  paddingTop: '40%',
 }));
 
 const plusButton = styled(Button)(( {theme }) => ({
@@ -193,23 +196,19 @@ const ButtonList = ( {items}) => {
 };
 
 
-// const NewNoteButton = () => {
-//   return (
-//     /*
-//     <Button
-//       //component={Link}
-//       //to="/notes"
-//       //variant="contained"
-//     >
-//     */
-//     <Button>
-//       <IconButton>
-//         <AddCircleOutlineRoundedIcon></AddCircleOutlineRoundedIcon>
-//       </IconButton>
-//       <Typography>Add new notebook</Typography>
-//     </Button>
-//   );
-// }
+const NewNoteButton = () => {
+  return (
+    <Button
+      href="./notes"
+      
+    >
+      <IconButton>
+        <AddCircleOutlineRoundedIcon></AddCircleOutlineRoundedIcon>
+      </IconButton>
+      <Typography>Make a NEW notebook</Typography>
+    </Button>
+  );
+}
 
 function ButtonRow() {
   const notebooks = ['Notebook 1', 'Notebook 2', 'Notebook 3', 'Notebook 4', 'Notebook 5', 'Notebook 6'];
@@ -237,9 +236,11 @@ function ButtonRow() {
       </Grid>
       <Grid item xl={8} md={8} container direction="row" justifyContent="center" alignItems="center" >
         {notebooks.slice(startIndex, startIndex + notebooksPerPage).map((notebook, index) => (
-          <NotebookButton key={index} variant="contained" color="primary">
-            {notebook}
-          </NotebookButton>
+          <Grid item xl={2} md={2} container direction="row" justifyContent="center" alignItems="center" >
+            <NotebookButton href="./notes" key={index} variant="contained" color="primary">
+              {notebook}
+            </NotebookButton>
+          </Grid>
         ))}
       </Grid>
       <Grid item xl={2} md={2}>

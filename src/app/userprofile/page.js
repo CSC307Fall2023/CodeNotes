@@ -231,7 +231,7 @@ function ButtonRow() {
   return (
     <Grid container direction="row" justifyContent="center" alignItems="center" >
       <Grid item xl={2} md={2} container direction="row" justifyContent="right" alignItems="right">
-        <ArrowBackIosIcon onClick={handlePrevClick}></ArrowBackIosIcon>
+        {/* <ArrowBackIosIcon onClick={handlePrevClick}></ArrowBackIosIcon> */}
       </Grid>
       <Grid item xl={8} md={8} container direction="row" justifyContent="center" alignItems="center" >
         {notebooks.slice(startIndex, startIndex + notebooksPerPage).map((notebook, index) => (
@@ -241,7 +241,7 @@ function ButtonRow() {
         ))}
       </Grid>
       <Grid item xl={2} md={2}>
-        <ArrowForwardIosIcon onClick={handleNextClick}></ArrowForwardIosIcon>
+        {/* <ArrowForwardIosIcon onClick={handleNextClick}></ArrowForwardIosIcon> */}
       </Grid>
     </Grid>
   );

@@ -24,7 +24,7 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import { useRouter } from 'next/navigation'
 
-export default function NavBar({ title, domain }) {
+export default function NavBar({ title, domain, avatarImage='user.jpg' }) {
     const router = useRouter()
     const { data: session, status } = useSession()
 
@@ -71,13 +71,15 @@ export default function NavBar({ title, domain }) {
 
                     <Avatar
                         alt={session.user.name}
-                        src={session.user.image}
+                        src={avatarImage}
                         sx={{
                             marginLeft: '20px',
                             height: '30px',
                             width: '30px',
                         }}
+                        
                     />
+                    
                 </Button>
                 <Menu
                     id="basic-menu"
@@ -90,7 +92,18 @@ export default function NavBar({ title, domain }) {
                 >
                     <MenuItem onClick={handleProfile}>
                         <ListItemIcon>
-                            <AccountCircleIcon fontSize="small" />
+                            {/* <AccountCircleIcon fontSize="small"   /> */}
+                            <Avatar
+                                alt={session.user.name}
+                                src={avatarImage}
+                                sx={{
+                                    height: '25px',
+                                    width: '25px',                            
+                                }}
+
+                                
+                        
+                    />
                         </ListItemIcon>
                         Profile
                     </MenuItem>
@@ -120,6 +133,7 @@ export default function NavBar({ title, domain }) {
 
     return (
         <>
+        
             <CssBaseline />
             <AppBar position="static" sx={{ paddingX: 2 }}>
                 <Toolbar disableGutters>

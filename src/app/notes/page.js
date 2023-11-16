@@ -50,6 +50,7 @@ const toolBoxStyle = {
 }
 
 export default function Note() {
+    const [notebooks, setNotebooks] = useState([])
     const [state, setState] = React.useState({left: false});
     
     const toggleDrawer = (anchor, open) => (event) => {
@@ -60,6 +61,18 @@ export default function Note() {
         setState({ ...state, [anchor]: open });
     };
     
+    // use this only once - only call this once [on load of component if array is empty]
+    useEffect(() => {
+        fetch('/api/notebooks', { method: 'GET' })
+            .then((response) => response.ok && response.json())
+            .then((notebooks) => {
+                notebooks && setNotebooks(notebooks)
+            })
+    }, [])
+
+    function updateNote({params}) {
+    }
+
     const list = (anchor) => (
         <Box sx={{ minHeight: 180, flexGrow: 1, maxWidth: 300 }}>
             <TreeView

@@ -1,5 +1,10 @@
 import { NextResponse } from 'next/server'
 import prisma from '@/lib/db'
+import { checkLoggedIn } from '@/lib/auth'
+
+
+// look into middleware - checks before each call that user is logged in !!! 
+// put matches in and paths matcher: put path in the matcher
 
 function exclude(user, keys) {
     return Object.fromEntries(
@@ -9,14 +14,17 @@ function exclude(user, keys) {
 
 // get pre-existing note with certain id 
 export async function GET(request, { params }) {
-    const id = parseInt(params.id)
-    if (id) {
-        const note = await prisma.note.findUnique({
-            where: {
-                id,
-            },
-        })
-        return NextResponse.json(note)
+    const loggedInData = await checkLoggedIn() // to update this in every single API call we have 
+    if(loggedInData.loggedIn){
+        const id = parseInt(params.id)
+        if (id) {
+            const note = await prisma.note.findUnique({
+                where: {
+                    id,
+                },
+            })
+            return NextResponse.json(note)
+        }
     }
 }
 
@@ -70,18 +78,6 @@ export async function POST(request, { params }) {
                 content: "",
                 author: { connect: { id: authorId } },
                 notebook: { connect: { id: notebookId } },
-            },
-        });
-
-        // Update the Notebook's notes attribute
-        const updatedNotebook = await prisma.notebook.update({
-            where: {
-                id: notebookId,
-            },
-            data: {
-                notes: {
-                    connect: { id: newNote.id },
-                },
             },
         });
         return NextResponse.json(newNote);

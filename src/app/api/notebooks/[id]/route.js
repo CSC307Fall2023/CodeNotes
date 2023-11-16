@@ -3,7 +3,7 @@ import prisma from '@/lib/db'
 
 // Get notebook we want with id
 export async function GET(request, { params }) {
-    const id = parseInt(params.id);
+    const id = parseInt(params.id)
 
     if (id) {
         const notebook = await prisma.notebook.findUnique({
@@ -13,16 +13,16 @@ export async function GET(request, { params }) {
             include: {
                 notes: true,
             },
-        });
+        })
 
-        return NextResponse.json(notebook);
+        return NextResponse.json(notebook)
     }
 }
 
-// Delete notebook and all notes within it 
-export async function DELETE(request, {params}) {
+// Delete notebook and all notes within it
+export async function DELETE(request, { params }) {
     const id = parseInt(params.id)
-    
+
     if (id) {
         // Get all notes with this notebookId
         const notesToDelete = await prisma.note.findMany({
@@ -35,37 +35,34 @@ export async function DELETE(request, {params}) {
         await prisma.note.deleteMany({
             where: {
                 id: {
-                    in: notesToDelete.map(note => note.id),
+                    in: notesToDelete.map((note) => note.id),
                 },
             },
         })
- 
+
         // Delete notebook itself
         const deletedNotebook = await prisma.notebook.delete({
             where: {
                 id: id,
             },
         })
-        return NextResponse.json(Notebook)
+        return NextResponse.json(deletedNotebook)
     }
 }
 
-// Create new notebook - create a patch to edit names
-// look into prisma (UPDATE) that doesn't need all data --> trim out anything that isn't in request 
+// Edit notebook with new name, owner, and/or class
 export async function PATCH(request, { params }) {
-    const { name, ownerId, notebookId } = await request.json(); //change only the fields i handed you
-    // a way to check what values are given - so this is too concrete/ we need to create OPTIONS 
-    // build the newNotebook create more dynamically
-
-    const newNotebook = await prisma.notebook.create({
+    const id = parseInt(params.id)
+    const { name, ownerId, classId } = await request.json()
+    const updatedNotebook = await prisma.notebook.update({
+        where: {
+            id,
+        },
         data: {
-            id: notebookId,
-            name: name,
-            owner: { connect: { id: ownerId } },
-            class: { connect: { id: classId } },
+            name: name || undefined,
+            owner: ownerId ? { connect: { id: ownerId } } : undefined,
+            class: classId ? { connect: { id: classId } } : undefined,
         },
-        include: {
-            notes: true,
-        },
-        });
-    }
+    })
+    return NextResponse.json(updatedNotebook)
+}

@@ -16,7 +16,7 @@ import CircularProgress from '@mui/material/CircularProgress'
 export default function ToDos() {
     const [todos, setTodos] = useState([])
     const [isLoading, setIsLoading] = useState(true)
-    const [newTodo, setNewTodo] = useState('')
+    const [newTodo, setNewTodo] = useState('') //in memory state management 
 
     function inputChangeHandler(e) {
         setNewTodo(e.target.value)

@@ -9,6 +9,7 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
 import Alert from '@mui/material/Alert'
+import { useRouter } from 'next/navigation'
 
 import { signIn } from 'next-auth/react'
 
@@ -16,6 +17,7 @@ export default function Login() {
     const [open, setOpen] = useState(false)
     const [formValues, setFormValues] = useState({ email: '', password: '' })
     const [error, setError] = useState(false)
+    const router = useRouter()
 
     function handleLoginButton() {
         setOpen(true)
@@ -36,6 +38,7 @@ export default function Login() {
             if (!result.error) {
                 setOpen(false)
                 reset()
+                router.push('/userprofile')
             } else {
                 setError(true)
             }
@@ -52,8 +55,9 @@ export default function Login() {
                 variant="contained"
                 color="inherit"
                 onClick={handleLoginButton}
-            >
+                >
                 Login
+
             </Button>
             {open && (
                 <Dialog open={open} onClose={handleClose}>

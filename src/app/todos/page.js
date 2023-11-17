@@ -16,7 +16,7 @@ import CircularProgress from '@mui/material/CircularProgress'
 export default function ToDos() {
     const [todos, setTodos] = useState([])
     const [isLoading, setIsLoading] = useState(true)
-    const [newTodo, setNewTodo] = useState('')
+    const [newTodo, setNewTodo] = useState('') //in memory state management 
 
     function inputChangeHandler(e) {
         setNewTodo(e.target.value)
@@ -36,37 +36,31 @@ export default function ToDos() {
         }
     }
 
-    function removeTodo({ id }) {
-        if (id) {
-            fetch(`api/todos/${id}`, { method: 'DELETE' }).then((response) => {
-                response.ok &&
-                    // if response is successful, then update state
-                    setTodos(todos.filter((v, idx) => v.id !== id))
-            })
+    function removeTodo({ index }) {
+        setTodos(todos.filter((v,idx) => idx!==index));
+        if(todos){
+            const todoToRemove = todos[index];
+            fetch(`api/todos/${todoToRemove.id}`, { method: "delete" }).then((response) => response.json())
         }
     }
 
-    function toggleCheckTodo(todo) {
-        if (todo) {
-            fetch(`api/todos/${todo.id}`, {
-                method: 'PATCH',
-                body: JSON.stringify({ done: !todo.done }),
-            }).then((response) => {
-                response.ok &&
-                    response.json().then((updatedTodo) => {
-                        // Update state
-                        setTodos(
-                            todos.map((todo) => {
-                                if (todo.id === updatedTodo.id) {
-                                    return updatedTodo
-                                }
-                                return todo
-                            })
-                        )
-                    })
-            })
-        }
+    function markTodo({index}){
+        const todoToUpdate = todos[index];
+        
+        fetch(`api/todos/${todoToUpdate.id}`, { 
+            method: "put",
+            body: JSON.stringify({done:  !todoToUpdate.done}),
+        }).then((response) => response.json())
+
+        setTodos((oldTodos) => {
+            const newTodos = [...oldTodos];
+            newTodos[index].done = !newTodos[index].done //toggle done
+            return newTodos
+        }); //changes list of Todos
+        
+
     }
+
 
     useEffect(() => {
         fetch('/api/todos', { method: 'GET' })

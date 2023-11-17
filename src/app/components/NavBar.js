@@ -24,7 +24,7 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import { useRouter } from 'next/navigation'
 
-export default function NavBar({ title, domain }) {
+export default function NavBar({ title, domain, avatarImage='user.jpg' }) {
     const router = useRouter()
     const { data: session, status } = useSession()
 
@@ -71,9 +71,15 @@ export default function NavBar({ title, domain }) {
 
                     <Avatar
                         alt={session.user.name}
-                        src={session.user.image}
-                        sx={{ marginLeft: '20px' }}
+                        src={avatarImage}
+                        sx={{
+                            marginLeft: '20px',
+                            height: '30px',
+                            width: '30px',
+                        }}
+                        
                     />
+                    
                 </Button>
                 <Menu
                     id="basic-menu"
@@ -86,7 +92,18 @@ export default function NavBar({ title, domain }) {
                 >
                     <MenuItem onClick={handleProfile}>
                         <ListItemIcon>
-                            <AccountCircleIcon fontSize="small" />
+                            {/* <AccountCircleIcon fontSize="small"   /> */}
+                            <Avatar
+                                alt={session.user.name}
+                                src={avatarImage}
+                                sx={{
+                                    height: '25px',
+                                    width: '25px',                            
+                                }}
+
+                                
+                        
+                    />
                         </ListItemIcon>
                         Profile
                     </MenuItem>
@@ -116,13 +133,14 @@ export default function NavBar({ title, domain }) {
 
     return (
         <>
+        
             <CssBaseline />
-            <AppBar position="static" sx={{ paddingX: 2 }}>
-                <Toolbar disableGutters>
+            <AppBar position="static" sx={{ paddingX: 2, paddingY: 0 }}>
+                <Toolbar disableGutters variant="dense">
                     <img
                         src="/CalPoly.png"
                         alt="logo"
-                        height="45"
+                        height="30"
                         position="inline-block"
                         style={{ marginRight: '20px' }}
                     />
@@ -134,17 +152,17 @@ export default function NavBar({ title, domain }) {
                     <img
                         src="/logo.png"
                         alt="logo"
-                        width="40"
-                        height="40"
+                        width={30}
+                        height={30}
                         style={{ marginLeft: '20px', marginRight: '20px' }}
                     />
                     <Typography
-                        variant="h4"
+                        variant="h6"
                         noWrap
                         component="a"
-                        href="/"
                         sx={{
                             textDecoration: 'none',
+                            color: '#154734',
                         }}
                     >
                         {title}
@@ -154,29 +172,7 @@ export default function NavBar({ title, domain }) {
                             flexGrow: 1,
                             display: { xs: 'none', md: 'flex' },
                         }}
-                    >
-                        {links.map((l) => {
-                            const isActive = l.path === pathname
-                            return (
-                                <Button
-                                    variant="contained"
-                                    component={Link}
-                                    href={l.path}
-                                    sx={{
-                                        my: 2,
-                                        color: 'white',
-                                        display: 'block',
-                                        textDecoration: isActive
-                                            ? 'underline'
-                                            : 'inherit',
-                                    }}
-                                    key={l.path}
-                                >
-                                    {l.name}
-                                </Button>
-                            )
-                        })}
-                    </Box>
+                    ></Box>
                     <Box sx={{ flexGrow: 0 }}>
                         <Stack direction="row" spacing={2} alignItems="center">
                             {loginSection}

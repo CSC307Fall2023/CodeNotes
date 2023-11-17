@@ -108,6 +108,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 
 export default function Note() {
+
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
 
@@ -118,6 +119,48 @@ export default function Note() {
     const handleDrawerClose = () => {
         setOpen(false);
     };
+    const [notebooks, setNotebooks] = useState([])
+    const [state, setState] = React.useState({left: false});
+    
+    const toggleDrawer = (anchor, open) => (event) => {
+        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+            return;
+        }
+    
+        setState({ ...state, [anchor]: open });
+    };
+    
+    // use this only once - only call this once [on load of component if array is empty]
+    useEffect(() => {
+        fetch('/api/notebooks', { method: 'GET' })
+            .then((response) => response.ok && response.json())
+            .then((notebooks) => {
+                notebooks && setNotebooks(notebooks)
+            })
+    }, [])
+
+    function updateNote({params}) {
+    }
+
+    const list = (anchor) => (
+        <Box sx={{ minHeight: 180, flexGrow: 1, maxWidth: 300 }}>
+            <TreeView
+                aria-label="file system navigator"
+                defaultCollapseIcon={<ExpandMoreIcon />}
+                defaultExpandIcon={<ChevronRightIcon />}
+            >
+            <TreeItem nodeId="1" label="CSC 123">
+                <TreeItem nodeId="2" label="some cracked python file" />
+            </TreeItem>
+                <TreeItem nodeId="5" label="CSC 357">
+                    <TreeItem nodeId="10" label="Syllabus Notes" />
+                    <TreeItem nodeId="6" label="Week 1">
+                        <TreeItem nodeId="8" label="Week 1 Day 1" />
+                    </TreeItem>
+                </TreeItem>
+            </TreeView>
+        </Box>
+    );
 
     return (
         <Box sx={{ display: 'flex' }}>

@@ -13,18 +13,18 @@ function exclude(user, keys) {
 
 // get pre-existing note with certain id
 export async function GET(request, { params }) {
-    const loggedInData = await checkLoggedIn() // to update this in every single API call we have
-    if (loggedInData.loggedIn) {
-        const id = parseInt(params.id)
-        if (id) {
-            const note = await prisma.note.findUnique({
-                where: {
-                    id,
-                },
-            })
-            return NextResponse.json(note)
-        }
+    //const loggedInData = await checkLoggedIn() // to update this in every single API call we have
+    //if (loggedInData.loggedIn) {
+    const id = parseInt(params.id)
+    if (id) {
+        const note = await prisma.note.findUnique({
+            where: {
+                id,
+            },
+        })
+        return NextResponse.json(note)
     }
+    //}
 }
 
 // update note with potentially new content or a new title or new notebook id
@@ -40,9 +40,11 @@ export async function PATCH(request, { params }) {
                 id,
             },
             data: {
-                title: title,
-                content: content,
-                notebook: { connect: { id: notebookId } },
+                title: title || undefined,
+                content: content || undefined,
+                notebook: notebookId
+                    ? { connect: { id: notebookId } }
+                    : undefined,
             },
         })
         return NextResponse.json(note)
@@ -60,25 +62,5 @@ export async function DELETE(request, { params }) {
             },
         })
         return NextResponse.json(deletedNote)
-    }
-}
-
-// create new note with no content and new title, and connect it to a notebook
-export async function POST(request, { params }) {
-    const notebookId = parseInt(params.id)
-    const title = parseInt(params.title)
-
-    if (notebookId) {
-        const { authorId } = await request.json()
-
-        const newNote = await prisma.note.create({
-            data: {
-                title: title,
-                content: '',
-                author: { connect: { id: authorId } },
-                notebook: { connect: { id: notebookId } },
-            },
-        })
-        return NextResponse.json(newNote)
     }
 }

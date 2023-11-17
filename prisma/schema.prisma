@@ -35,7 +35,8 @@ model Profile {
 model Class {
   id          Int        @id @default(autoincrement())
   name        String
-  description String
+  password    String
+  description String     @default("")
   teacher     User       @relation("Teacher", fields: [teacherId], references: [id])
   teacherId   Int
   students    User[]     @relation("ClassToUser")
@@ -71,7 +72,7 @@ model Note {
   title      String
   author     User     @relation(fields: [authorId], references: [id])
   authorId   Int
-  content    String
+  content    String?   @default("")
   notebook   Notebook @relation(fields: [notebookId], references: [id])
   notebookId Int
   createdAt  DateTime @default(now())

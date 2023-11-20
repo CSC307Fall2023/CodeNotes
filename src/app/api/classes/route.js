@@ -2,6 +2,12 @@ import { NextResponse } from 'next/server'
 import prisma from '@/lib/db'
 import bcrypt from 'bcryptjs'
 
+function exclude(item, keys) {
+    return Object.fromEntries(
+        Object.entries(item).filter(([key]) => !keys.includes(key))
+    )
+}
+
 // create a new class
 export async function POST(request) {
     const { name, description, teacherId, password } = await request.json()
@@ -29,10 +35,6 @@ export async function POST(request) {
                 },
             },
         },
-        include: {
-            students: true,
-            teacher: true,
-        },
     })
-    return NextResponse.json(newClass)
+    return NextResponse.json(exclude(newClass, ['password']))
 }

@@ -19,7 +19,7 @@ export async function POST(request, { params }) {
     // get student id from logged in user
     // const studentId = loggedInData.user.id
 
-    const studentId = 2
+    const studentId = 3
     const classId = parseInt(params.id)
     const { password } = await request.json()
     console.log('studentId', studentId)

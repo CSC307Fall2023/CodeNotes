@@ -2,6 +2,12 @@ import { NextResponse } from 'next/server'
 import prisma from '@/lib/db'
 import bcrypt from 'bcryptjs'
 
+function exclude(item, keys) {
+    return Object.fromEntries(
+        Object.entries(item).filter(([key]) => !keys.includes(key))
+    )
+}
+
 // get class by id
 export async function GET(request, { params }) {
     const id = parseInt(params.id)
@@ -10,13 +16,8 @@ export async function GET(request, { params }) {
             where: {
                 id,
             },
-            include: {
-                teacher: true,
-                students: true,
-                notebooks: true,
-            },
         })
-        return NextResponse.json(classData)
+        return NextResponse.json(exclude(classData, ['password']))
     }
 }
 

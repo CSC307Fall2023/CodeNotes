@@ -5,6 +5,7 @@ import Container from '@mui/material/Container'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import Signup from './components/Signup'
+import NavBar from './components/NavBar'
 
 export default function Home() {
     const router = useRouter()
@@ -19,6 +20,7 @@ export default function Home() {
 
     return (
         <>
+            <NavBar title="CodeNotes" domain="http://localhost:3000" />
             <Container maxWidth="xl">
                 <Grid
                     container

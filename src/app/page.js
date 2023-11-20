@@ -1,23 +1,21 @@
 'use client'
 import { Button, Grid, Typography } from '@mui/material'
+import { useEffect } from 'react'
 import Container from '@mui/material/Container'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import Signup from './components/Signup'
 
 export default function Home() {
-
     const router = useRouter()
     const { data: session, status } = useSession()
 
-    function getStartedHandler() {
-        console.log('Get Started')
+    useEffect(() => {
         if (status === 'authenticated') {
-            router.push('/notes')
-        } else {
-            router.push('/login')
+            console.log('pushing to profile')
+            router.push('/userprofile')
         }
-    }
+    }, [status])
 
     return (
         <>
@@ -68,7 +66,7 @@ export default function Home() {
                             <Button
                                 variant="contained"
                                 color="primary"
-                                onClick={getStartedHandler}
+                                onClick={() => router.push('/notes')}
                             >
                                 Get Started
                             </Button>

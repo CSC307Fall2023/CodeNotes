@@ -33,16 +33,25 @@ export default function Login() {
         setFormValues({ email: '', password: '' })
     }
 
-    function handleSignin() {
-        signIn('normal', { ...formValues, redirect: false }).then((result) => {
-            if (!result.error) {
-                setOpen(false)
-                reset()
-                router.push('/userprofile')
-            } else {
-                setError(true)
-            }
-        })
+    function handleSignin(event) {
+        event.preventDefault()
+        let valid = event.currentTarget.reportValidity()
+        const data = new FormData(event.currentTarget)
+        if (valid) {
+            signIn('normal', { ...formValues, redirect: false }).then(
+                (result) => {
+                    if (!result.error) {
+                        setOpen(false)
+                        reset()
+                        router.push('/userprofile')
+                    } else {
+                        setError(true)
+                    }
+                }
+            )
+        } else {
+            setError(true)
+        }
     }
 
     function handleChange({ field, value }) {
@@ -55,60 +64,63 @@ export default function Login() {
                 variant="contained"
                 color="inherit"
                 onClick={handleLoginButton}
-                >
+            >
                 Login
-
             </Button>
             {open && (
                 <Dialog open={open} onClose={handleClose}>
                     <DialogTitle>Login</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText>
-                            To login, please enter your email address and
-                            password.
-                        </DialogContentText>
-                        {error ? (
-                            <Alert severity="error">
-                                There was an issue signing in! Check email and
+                    <form onSubmit={handleSignin}>
+                        <DialogContent>
+                            <DialogContentText>
+                                To login, please enter your email address and
                                 password.
-                            </Alert>
-                        ) : null}
-                        <TextField
-                            autoFocus
-                            margin="dense"
-                            id="email"
-                            label="Email Address"
-                            type="email"
-                            fullWidth
-                            value={formValues.email}
-                            onChange={(e) =>
-                                handleChange({
-                                    field: 'email',
-                                    value: e.target.value,
-                                })
-                            }
-                            variant="standard"
-                        />
-                        <TextField
-                            margin="dense"
-                            id="password"
-                            label="Password"
-                            type="password"
-                            fullWidth
-                            value={formValues.password}
-                            onChange={(e) =>
-                                handleChange({
-                                    field: 'password',
-                                    value: e.target.value,
-                                })
-                            }
-                            variant="standard"
-                        />
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={handleClose}>Cancel</Button>
-                        <Button onClick={() => handleSignin()}>Login</Button>
-                    </DialogActions>
+                            </DialogContentText>
+                            {error ? (
+                                <Alert severity="error">
+                                    There was an issue signing in! Check email
+                                    and password.
+                                </Alert>
+                            ) : null}
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="email"
+                                label="Email Address"
+                                type="email"
+                                fullWidth
+                                value={formValues.email}
+                                onChange={(e) =>
+                                    handleChange({
+                                        field: 'email',
+                                        value: e.target.value,
+                                    })
+                                }
+                                variant="standard"
+                            />
+                            <TextField
+                                margin="dense"
+                                id="password"
+                                label="Password"
+                                type="password"
+                                fullWidth
+                                value={formValues.password}
+                                onChange={(e) =>
+                                    handleChange({
+                                        field: 'password',
+                                        value: e.target.value,
+                                    })
+                                }
+                                variant="standard"
+                            />
+                        </DialogContent>
+                        <DialogActions>
+                            <Button type="button" onClick={handleClose}>
+                                Cancel
+                            </Button>
+                            <Button type="submit">Login</Button>
+                        </DialogActions>
+                    </form>
                 </Dialog>
             )}
         </>

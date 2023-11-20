@@ -61,17 +61,11 @@ export default function Signup({ buttonText = 'Signup', variant = 'text' }) {
                 ...formState,
                 passwordConfirmation: {
                     error: true,
-                    message: "You're passwords don't match.",
+                    message: "Your passwords don't match.",
                 },
             })
         }
         return false
-    }
-
-    function validate(input) {
-        const name = input.name
-        const valid = input.reportValidity()
-        setFormState({ ...formState, [name]: { error: valid } })
     }
 
     return (
@@ -136,7 +130,9 @@ export default function Signup({ buttonText = 'Signup', variant = 'text' }) {
                             />
                         </DialogContent>
                         <DialogActions>
-                            <Button onClick={handleClose}>Cancel</Button>
+                            <Button type="button" onClick={handleClose}>
+                                Cancel
+                            </Button>
                             <Button type="submit">Signup</Button>
                         </DialogActions>
                     </form>

@@ -1,9 +1,15 @@
 import { NextResponse } from 'next/server'
 import prisma from '@/lib/db'
+import { checkLoggedIn } from '@/lib/auth'
+
+function exclude(item, keys) {
+    return Object.fromEntries(
+        Object.entries(item).filter(([key]) => !keys.includes(key))
+    )
+}
 
 // Get all notebooks by a given user
 export async function GET(request) {
-    // for get make it just get all notebooks
     const loggedInData = await checkLoggedIn()
     if (loggedInData.loggedIn) {
         const notebooks = await prisma.notebook.findMany({
@@ -11,6 +17,9 @@ export async function GET(request) {
                 ownerId: {
                     equals: loggedInData.user?.id,
                 },
+            },
+            include: {
+                notes: true,
             },
         })
         return NextResponse.json(notebooks)

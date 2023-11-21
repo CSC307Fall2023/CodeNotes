@@ -12,9 +12,9 @@ export default function Home() {
     const { data: session, status } = useSession()
 
     useEffect(() => {
+        console.log('status: ' + status)
         if (status === 'authenticated') {
-            console.log('pushing to profile')
-            router.push('/userprofile')
+            router.push(`/profile/id=${session.user.id}`)
         }
     }, [status])
 

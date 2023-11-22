@@ -18,7 +18,6 @@ export default function RootLayout(props) {
             <body>
                 <AuthProvider>
                     <ThemeRegistry options={{ key: 'mui' }}>
-                        <NavBar title={COMPANY_NAME} domain={DOMAIN} />
                         {children}
                     </ThemeRegistry>
                 </AuthProvider>

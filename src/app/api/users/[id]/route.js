@@ -7,6 +7,7 @@ function exclude(user, keys) {
     )
 }
 
+// get user by id
 export async function GET(request, { params }) {
     const id = parseInt(params.id)
     if (id) {
@@ -16,8 +17,6 @@ export async function GET(request, { params }) {
             },
             include: {
                 profile: true,
-                notebooks: true,
-                notes: true,
                 studentin: true,
             },
         })

@@ -24,7 +24,7 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import { useRouter } from 'next/navigation'
 
-export default function NavBar({ title, domain, avatarImage='user.jpg' }) {
+export default function NavBar({ title, domain, avatarImage = 'user.jpg' }) {
     const router = useRouter()
     const { data: session, status } = useSession()
 
@@ -40,8 +40,8 @@ export default function NavBar({ title, domain, avatarImage='user.jpg' }) {
         setAnchorEl(null)
     }
 
-    const handleSignOut = () => {
-        signOut({ callbackUrl: `${domain}/` })
+    const handleSignOut = async () => {
+        await signOut({ callbackUrl: `${domain}/` })
         router.push('/')
     }
 
@@ -77,9 +77,7 @@ export default function NavBar({ title, domain, avatarImage='user.jpg' }) {
                             height: '30px',
                             width: '30px',
                         }}
-                        
                     />
-                    
                 </Button>
                 <Menu
                     id="basic-menu"
@@ -98,12 +96,9 @@ export default function NavBar({ title, domain, avatarImage='user.jpg' }) {
                                 src={avatarImage}
                                 sx={{
                                     height: '25px',
-                                    width: '25px',                            
+                                    width: '25px',
                                 }}
-
-                                
-                        
-                    />
+                            />
                         </ListItemIcon>
                         Profile
                     </MenuItem>
@@ -120,7 +115,6 @@ export default function NavBar({ title, domain, avatarImage='user.jpg' }) {
         loginSection = (
             <>
                 <Signup />
-
                 <Divider
                     orientation="vertical"
                     variant="middle"
@@ -133,10 +127,9 @@ export default function NavBar({ title, domain, avatarImage='user.jpg' }) {
 
     return (
         <>
-        
             <CssBaseline />
-            <AppBar position="static" sx={{ paddingX: 2 }}>
-                <Toolbar disableGutters>
+            <AppBar position="static" sx={{ paddingX: 2, paddingY: 0 }}>
+                <Toolbar disableGutters variant="dense">
                     <img
                         src="/CalPoly.png"
                         alt="logo"

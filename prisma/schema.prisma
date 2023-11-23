@@ -64,6 +64,7 @@ model Notebook {
   class     Class    @relation(fields: [classId], references: [id])
   classId   Int
   notes     Note[]
+  favorited Boolean  @default(false)
   createdAt DateTime @default(now())
 }
 

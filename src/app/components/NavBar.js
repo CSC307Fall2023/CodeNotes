@@ -46,7 +46,7 @@ export default function NavBar({
     }
 
     const handleProfile = () => {
-        router.push('/userprofile')
+        router.push('/account')
     }
 
     let loginSection

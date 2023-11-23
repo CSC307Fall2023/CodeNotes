@@ -50,10 +50,13 @@ export async function DELETE(request, { params }) {
     }
 }
 
-// Edit notebook with new name, owner, and/or class
+// Edit notebook with new name, owner, and/or favorited status
 export async function PATCH(request, { params }) {
     const id = parseInt(params.id)
-    const { name, ownerId, classId } = await request.json()
+    const { name, ownerId, favorited } = await request.json()
+    console.log('name', name)
+    console.log('ownerId', ownerId)
+    console.log('favorited', favorited)
     const updatedNotebook = await prisma.notebook.update({
         where: {
             id,
@@ -61,7 +64,7 @@ export async function PATCH(request, { params }) {
         data: {
             name: name || undefined,
             owner: ownerId ? { connect: { id: ownerId } } : undefined,
-            class: classId ? { connect: { id: classId } } : undefined,
+            favorited: favorited != undefined ? favorited : undefined,
         },
     })
     return NextResponse.json(updatedNotebook)

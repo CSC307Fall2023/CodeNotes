@@ -1,11 +1,14 @@
 import { NextResponse } from 'next/server'
 import prisma from '@/lib/db'
+import { checkLoggedIn } from '@/lib/auth'
 
 // creates a new profile for a user
-export async function POST(request, { params }) {
+export async function POST(request) {
+    const loggedInData = await checkLoggedIn()
     const data = await request.json()
-    const { name, major, year } = data
-    const userId = parseInt(params.id)
+    const { name, major } = data
+    const year = parseInt(data.year)
+    const userId = loggedInData.user.id
     let profile
     try {
         profile = await prisma.profile.create({
@@ -27,10 +30,12 @@ export async function POST(request, { params }) {
 }
 
 // updates a profile for a user
-export async function PATCH(request, { params }) {
+export async function PATCH(request) {
     const data = await request.json()
-    const { name, major, year } = data
-    const userId = parseInt(params.id)
+    const { name, major } = data
+    const year = parseInt(data.year)
+    const loggedInData = await checkLoggedIn()
+    const userId = loggedInData.user.id
     let profile
     try {
         profile = await prisma.profile.update({
@@ -50,8 +55,9 @@ export async function PATCH(request, { params }) {
 }
 
 // gets a profile for a user
-export async function GET(request, { params }) {
-    const userId = parseInt(params.id)
+export async function GET(request) {
+    const loggedInData = await checkLoggedIn()
+    const userId = loggedInData.user.id
     let profile
     try {
         profile = await prisma.profile.findUnique({

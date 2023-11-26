@@ -1,0 +1,17 @@
+#content-editable {
+    min-height: 400px;
+    width: 100%;
+    padding: 0 8px;
+    background-color: white;
+}
+
+#placeholder {
+    position: absolute;
+    top: 56px;
+    left: 8px;
+    color: #777;
+}
+
+.editor {
+    position: relative;
+}

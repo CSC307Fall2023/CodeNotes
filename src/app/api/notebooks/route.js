@@ -19,9 +19,15 @@ export async function GET(request) {
                 },
             },
             include: {
-                notes: true,
+                notes: {
+                    select: {
+                        id: true,
+                        title: true,
+                    },
+                },
             },
         })
+
         return NextResponse.json(notebooks)
     }
     return NextResponse.json({ error: 'not signed in' }, { status: 403 })

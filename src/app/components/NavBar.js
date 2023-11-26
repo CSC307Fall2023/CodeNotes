@@ -125,8 +125,8 @@ export default function NavBar({
     return (
         <>
             <AppBar
-                position="static"
-                sx={{ paddingX: 2, paddingY: 0 }}
+                position="sticky"
+                sx={{ paddingX: 2, paddingY: 0, zIndex: 1000 }}
                 elevation={0}
             >
                 <Toolbar disableGutters>

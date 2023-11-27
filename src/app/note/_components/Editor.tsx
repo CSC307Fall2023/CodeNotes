@@ -14,17 +14,20 @@ function onError(error) {
     console.error(error)
 }
 
-function Editor() {
+function Editor({ note }) {
     const initialConfig = {
         namespace: 'MyEditor',
         theme,
         onError,
+        editorState: note.content,
     }
+
+    console.log(JSON.parse(note.content))
 
     return (
         <div className="editor">
             <LexicalComposer initialConfig={initialConfig}>
-                <EditorToolbar />
+                <EditorToolbar note={note} />
                 <RichTextPlugin
                     contentEditable={<ContentEditable id="content-editable" />}
                     placeholder={<div id="placeholder">Enter some text...</div>}

@@ -8,7 +8,7 @@ function TestPage() {
     return (
         <>
             <Container maxWidth={'lg'} sx={{ pt: 2 }}>
-                <Editor />
+                <Editor note={null} />
             </Container>
         </>
     )

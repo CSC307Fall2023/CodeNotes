@@ -18,7 +18,9 @@ import Typography from '@mui/material/Typography'
 import Fab from '@mui/material/Fab'
 import AddIcon from '@mui/icons-material/Add'
 import NavBar from '../components/NavBar'
-import { TextField, Tooltip } from '@mui/material'
+import { Icon, TextField, Tooltip } from '@mui/material'
+import Editor from './_components/Editor'
+import AddCircleIcon from '@mui/icons-material/AddCircle'
 
 const drawerWidth = 400
 
@@ -137,15 +139,31 @@ export default function Note() {
                                 <TreeItem
                                     nodeId={`notebook-${notebook.id}`}
                                     label={
-                                        <TextField
-                                            label=""
-                                            defaultValue={notebook.name}
-                                            fullWidth
-                                            variant="standard"
-                                        ></TextField>
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                justifyContent: 'space-between',
+                                                alignItems: 'center',
+                                            }}
+                                        >
+                                            <Typography
+                                                variant="body1"
+                                                sx={{ mr: 1 }}
+                                            >
+                                                {notebook.name}
+                                            </Typography>
+                                            <Tooltip title="Add Note">
+                                                <IconButton
+                                                    size="small"
+                                                    sx={{
+                                                        color: '#888888',
+                                                    }}
+                                                >
+                                                    <AddCircleIcon />
+                                                </IconButton>
+                                            </Tooltip>
+                                        </Box>
                                     }
-                                    key={`notebook-${notebook.id}`}
-                                    // TODO: on double click, edit the name of the notebook
                                 >
                                     {notebook.notes.map((note) => {
                                         return (
@@ -223,6 +241,7 @@ export default function Note() {
                                         })
                                     }}
                                 />
+                                <Editor note={activeNote} />
                             </>
                         ) : (
                             // make this centered vertically and horizontally

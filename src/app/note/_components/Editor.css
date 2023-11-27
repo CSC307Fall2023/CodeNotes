@@ -3,6 +3,7 @@
     width: 100%;
     padding: 0 8px;
     background-color: white;
+    outline: none;
 }
 
 #placeholder {

@@ -1,12 +1,16 @@
 import * as React from 'react'
 import './Editor.css'
 
-import { LexicalComposer } from '@lexical/react/LexicalComposer'
+import {
+    InitialConfigType,
+    LexicalComposer,
+} from '@lexical/react/LexicalComposer'
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin'
 import { ContentEditable } from '@lexical/react/LexicalContentEditable'
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary'
 import EditorToolbar from './EditorToolbar'
+import { HeadingNode } from '@lexical/rich-text'
 
 const theme = {}
 
@@ -15,14 +19,13 @@ function onError(error) {
 }
 
 function Editor({ note }) {
-    const initialConfig = {
+    const initialConfig: InitialConfigType = {
         namespace: 'MyEditor',
         theme,
+        nodes: [HeadingNode],
         onError,
-        editorState: note.content,
+        editorState: note.content ? note.content : null,
     }
-
-    console.log(JSON.parse(note.content))
 
     return (
         <div className="editor">

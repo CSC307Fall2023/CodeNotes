@@ -198,11 +198,30 @@ export default function Account() {
                 <br />
                 <Divider variant="middle" sx={{ width: '100%' }} />
                 <br />
-                <ClassList classes={user.studentin}></ClassList>
+                <ClassList
+                    user={user}
+                    refresh={() =>
+                        fetch(`/api/users`)
+                            .then((res) => res.json())
+                            .then((data) => {
+                                setUser(data)
+                                if (data.profile == null) {
+                                    setOpen(true)
+                                }
+                            })
+                    }
+                ></ClassList>
                 <br />
                 <Divider variant="middle" sx={{ width: '100%' }} />
                 <br />
                 <NotebookRow></NotebookRow>
+                <br />
+                <Button
+                    variant="contained"
+                    onClick={() => router.push('/note?open=true')}
+                >
+                    See all Notebooks
+                </Button>
             </Container>
             <Dialog open={open}>
                 <DialogTitle>

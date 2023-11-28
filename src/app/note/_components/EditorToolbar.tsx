@@ -1,5 +1,5 @@
 import { Box, Divider } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
 import SaveButton from './_toolbarButtons/SaveButton'
 import UndoRedoSection from './_toolbarButtons/UndoRedoSection'
 import LanguageSelector from './_toolbarButtons/LanguageSelector'
@@ -10,9 +10,11 @@ import ListsSection from './_toolbarButtons/ListsSection'
 import TextFormatSection from './_toolbarButtons/TextFormatSection'
 import FontSizeSection from './_toolbarButtons/FontSizeSection'
 import TextStyleSelector from './_toolbarButtons/TextStyleSelector'
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 
 function EditorToolbar({ note }) {
     const [codeMode, setCodeMode] = React.useState(false)
+    const [editor] = useLexicalComposerContext()
     function ToolbarDivider() {
         return (
             <Divider
@@ -25,6 +27,20 @@ function EditorToolbar({ note }) {
             />
         )
     }
+    // set editor state when note changes
+    useEffect(() => {
+        if (editor) {
+            if (!note.content) {
+                editor.setEditorState(
+                    editor.parseEditorState(
+                        '{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1}],"direction":null,"format":"","indent":0,"type":"root","version":1}}'
+                    )
+                )
+                return
+            }
+            editor.setEditorState(editor.parseEditorState(note.content))
+        }
+    }, [note])
 
     function TextToolbar() {
         return (

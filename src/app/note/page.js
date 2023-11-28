@@ -21,6 +21,9 @@ import NavBar from '../components/NavBar'
 import { Icon, TextField, Tooltip } from '@mui/material'
 import Editor from './_components/Editor'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
+import { useSearchParams } from 'next/navigation'
+import StarIcon from '@mui/icons-material/Star'
+import StarBorderIcon from '@mui/icons-material/StarBorder'
 
 const drawerWidth = 400
 
@@ -54,7 +57,9 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 export default function Note() {
     const theme = useTheme()
-    const [open, setOpen] = React.useState(false)
+    const [open, setOpen] = React.useState(
+        useSearchParams().get('open') === 'true'
+    )
 
     const handleDrawerOpen = () => {
         setOpen(true)
@@ -63,6 +68,35 @@ export default function Note() {
     const handleDrawerClose = () => {
         setOpen(false)
     }
+
+    const handleCreateNote = (e, notebook) => {
+        e.stopPropagation()
+        e.preventDefault()
+        fetch('/api/notes', {
+            method: 'POST',
+            body: JSON.stringify({
+                title: 'Untitled Note',
+                notebookId: notebook.id,
+            }),
+        })
+            .then((response) => response.ok && response.json())
+            .then(async (note) => {
+                if (note) {
+                    await fetch('/api/notebooks', { method: 'GET' })
+                        .then((response) => response.ok && response.json())
+                        .then((notebooks) => {
+                            notebooks && setNotebooks(notebooks)
+                        })
+
+                    setActiveNote(
+                        notebooks
+                            .find((n) => n.id === notebook.id)
+                            .notes.find((n) => n.id === note.id)
+                    )
+                }
+            })
+    }
+
     const [notebooks, setNotebooks] = React.useState([])
     const [activeNote, setActiveNote] = React.useState(null)
 
@@ -146,18 +180,102 @@ export default function Note() {
                                                 alignItems: 'center',
                                             }}
                                         >
-                                            <Typography
-                                                variant="body1"
-                                                sx={{ mr: 1 }}
+                                            <Box
+                                                sx={{
+                                                    display: 'flex',
+                                                    justifyContent:
+                                                        'space-between',
+                                                    alignItems: 'center',
+                                                }}
                                             >
-                                                {notebook.name}
-                                            </Typography>
+                                                <Tooltip
+                                                    title={
+                                                        notebook.favorited
+                                                            ? 'Unfavorite Notebook'
+                                                            : 'Favorite Notebook'
+                                                    }
+                                                >
+                                                    <IconButton
+                                                        size="small"
+                                                        sx={{
+                                                            color: notebook.favorited
+                                                                ? '#b58500'
+                                                                : '#888888',
+                                                        }}
+                                                        onClick={(e) => {
+                                                            e.stopPropagation()
+                                                            e.preventDefault()
+                                                            fetch(
+                                                                `/api/notebooks/${notebook.id}`,
+                                                                {
+                                                                    method: 'PATCH',
+                                                                    body: JSON.stringify(
+                                                                        {
+                                                                            favorited:
+                                                                                !notebook.favorited,
+                                                                        }
+                                                                    ),
+                                                                }
+                                                            ).then(
+                                                                (response) => {
+                                                                    if (
+                                                                        response.ok
+                                                                    ) {
+                                                                        fetch(
+                                                                            '/api/notebooks',
+                                                                            {
+                                                                                method: 'GET',
+                                                                            }
+                                                                        )
+                                                                            .then(
+                                                                                (
+                                                                                    response
+                                                                                ) =>
+                                                                                    response.ok &&
+                                                                                    response.json()
+                                                                            )
+                                                                            .then(
+                                                                                (
+                                                                                    notebooks
+                                                                                ) => {
+                                                                                    notebooks &&
+                                                                                        setNotebooks(
+                                                                                            notebooks
+                                                                                        )
+                                                                                }
+                                                                            )
+                                                                    }
+                                                                }
+                                                            )
+                                                        }}
+                                                    >
+                                                        {notebook.favorited ? (
+                                                            <StarIcon />
+                                                        ) : (
+                                                            <StarBorderIcon />
+                                                        )}
+                                                    </IconButton>
+                                                </Tooltip>
+
+                                                <Typography
+                                                    variant="body1"
+                                                    sx={{ mr: 1 }}
+                                                >
+                                                    {notebook.name}
+                                                </Typography>
+                                            </Box>
                                             <Tooltip title="Add Note">
                                                 <IconButton
                                                     size="small"
                                                     sx={{
                                                         color: '#888888',
                                                     }}
+                                                    onClick={(e) =>
+                                                        handleCreateNote(
+                                                            e,
+                                                            notebook
+                                                        )
+                                                    }
                                                 >
                                                     <AddCircleIcon />
                                                 </IconButton>
@@ -216,7 +334,7 @@ export default function Note() {
                                 </Typography>
                                 <TextField
                                     label=""
-                                    defaultValue={activeNote.title}
+                                    value={activeNote.title}
                                     fullWidth
                                     variant="standard"
                                     inputProps={{
@@ -224,6 +342,12 @@ export default function Note() {
                                             fontSize: '2.5rem',
                                             fontWeight: 700,
                                         },
+                                    }}
+                                    onChange={(event) => {
+                                        setActiveNote({
+                                            ...activeNote,
+                                            title: event.target.value,
+                                        })
                                     }}
                                     onBlur={(event) => {
                                         fetch(`/api/notes/${activeNote.id}`, {
@@ -241,6 +365,8 @@ export default function Note() {
                                         })
                                     }}
                                 />
+                                <br />
+                                <br />
                                 <Editor note={activeNote} />
                             </>
                         ) : (

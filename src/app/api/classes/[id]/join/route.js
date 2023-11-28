@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import prisma from '@/lib/db'
 import bcrypt from 'bcryptjs'
+import { checkLoggedIn } from '@/lib/auth'
 
 // exclude certain keys from an object
 function exclude(obj, keys) {
@@ -11,21 +12,13 @@ function exclude(obj, keys) {
 
 // add an existing student to a class
 export async function POST(request, { params }) {
-    // check to make sure user is logged in
-    // const loggedInData = await checkLoggedIn()
-    // if (!loggedInData.loggedIn) {
-    //     return NextResponse.json({ error: 'not signed in' }, { status: 403 })
-    // }
-    // get student id from logged in user
-    // const studentId = loggedInData.user.id
-
-    const studentId = 3
+    const loggedInData = await checkLoggedIn()
+    if (!loggedInData.loggedIn) {
+        return NextResponse.json({ error: 'not signed in' }, { status: 403 })
+    }
+    const studentId = loggedInData.user.id
     const classId = parseInt(params.id)
     const { password } = await request.json()
-    console.log('studentId', studentId)
-    console.log('classId', classId)
-    console.log('password', password)
-    console.log('uhhh', studentId && password)
 
     if (studentId && password) {
         // check to make sure that password matches the class password
@@ -34,10 +27,12 @@ export async function POST(request, { params }) {
                 id: classId,
             },
         })
+        console.log(classPassData)
         const passwordMatch = await bcrypt.compare(
             password,
             classPassData.password
         )
+        console.log(passwordMatch)
         if (!passwordMatch) {
             return NextResponse.json(
                 { error: 'incorrect password' },

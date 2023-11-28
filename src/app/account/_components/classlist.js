@@ -15,24 +15,14 @@ import {
 } from '@mui/material'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 
-function ClassList({ classes }) {
+function ClassList({ user, refresh }) {
     const [open, setOpen] = React.useState(false)
-    const [updatedClasses, setUpdatedClasses] = React.useState(classes)
-    const [allClasses, setAllClasses] = React.useState(null)
     const handleClickOpen = () => {
         setOpen(true)
     }
     const handleClose = () => {
         setOpen(false)
     }
-
-    React.useEffect(() => {
-        fetch(`/api/classes`)
-            .then((res) => res.json())
-            .then((data) => {
-                setAllClasses(data)
-            })
-    }, [])
 
     return (
         <>
@@ -47,10 +37,10 @@ function ClassList({ classes }) {
                 </Tooltip>
             </Box>
             <br />
-            {updatedClasses && updatedClasses.length !== 0 ? (
-                updatedClasses.map((classItem) => (
+            {user.studentin && user.studentin.length !== 0 ? (
+                user.studentin.map((classItem) => (
                     <Typography
-                        variant="body2"
+                        variant="body1"
                         component="div"
                         display={'inline'}
                         key={classItem.id}
@@ -79,16 +69,17 @@ function ClassList({ classes }) {
                         let valid = e.currentTarget.checkValidity()
                         const data = new FormData(e.currentTarget)
                         if (valid) {
-                            const res = await fetch(`/api/classes/join`, {
-                                method: 'POST',
-                                body: JSON.stringify({
-                                    classId: data.get('classId'),
-                                    password: data.get('password'),
-                                }),
-                            })
+                            const res = await fetch(
+                                `/api/classes/${data.get('classId')}/join`,
+                                {
+                                    method: 'POST',
+                                    body: JSON.stringify({
+                                        password: data.get('password'),
+                                    }),
+                                }
+                            )
                             if (res.status === 200) {
-                                const newClass = await res.json()
-                                setUpdatedClasses([...updatedClasses, newClass])
+                                refresh()
                                 setOpen(false)
                             } else {
                                 console.log('error')
@@ -112,24 +103,10 @@ function ClassList({ classes }) {
                                 required
                                 id="classId"
                                 name="classId"
-                                label="Class Name"
+                                label="Class Id"
                                 variant="standard"
                                 fullWidth
-                                select
-                            >
-                                {allClasses ? (
-                                    allClasses.map((classItem) => (
-                                        <MenuItem
-                                            key={classItem.id}
-                                            value={classItem.id}
-                                        >
-                                            {classItem.name}
-                                        </MenuItem>
-                                    ))
-                                ) : (
-                                    <></>
-                                )}
-                            </TextField>
+                            ></TextField>
                             <TextField
                                 required
                                 id="password"

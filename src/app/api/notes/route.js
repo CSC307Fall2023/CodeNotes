@@ -4,7 +4,9 @@ import { checkLoggedIn } from '@/lib/auth'
 
 // create new note with no content and new title, and connect it to a notebook
 export async function POST(request) {
-    const { title, authorId, notebookId } = await request.json()
+    const loggedInData = await checkLoggedIn(request)
+    const authorId = loggedInData.user.id
+    const { title, notebookId } = await request.json()
 
     const newNote = await prisma.note.create({
         data: {

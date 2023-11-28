@@ -87,7 +87,6 @@ export default function Account() {
     const router = useRouter()
 
     const [user, setUser] = useState({})
-    const [formState, setFormState] = useState({})
     const [open, setOpen] = useState(false)
 
     async function handleProfileCreate(event) {

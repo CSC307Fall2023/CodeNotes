@@ -1,6 +1,5 @@
 import { Box, Divider } from '@mui/material'
 import React from 'react'
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import SaveButton from './_toolbarButtons/SaveButton'
 import UndoRedoSection from './_toolbarButtons/UndoRedoSection'
 import LanguageSelector from './_toolbarButtons/LanguageSelector'

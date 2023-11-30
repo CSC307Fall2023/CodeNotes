@@ -52,10 +52,30 @@ export async function POST(request, { params }) {
                     },
                 },
             })
-            return NextResponse.json(exclude(classData, ['password']))
         } catch (e) {
             return NextResponse.json({ error: e.message }, { status: 500 })
         }
+        // at this point we have successfully added the student to the class
+        // create a notebook for the student in the class
+        // check if the student already has a notebook for this class
+        const existingNotebook = await prisma.notebook.findFirst({
+            where: {
+                classId: classId,
+                ownerId: studentId,
+            },
+        })
+        if (existingNotebook) {
+            return NextResponse.json(classData)
+        }
+        const notebookData = await prisma.notebook.create({
+            data: {
+                name: `${classData.name} Notebook`,
+                owner: { connect: { id: studentId } },
+                class: { connect: { id: classId } },
+            },
+        })
+        // return the class data
+        return NextResponse.json(classData)
     }
     return NextResponse.json(
         { error: 'Student ID or Password not defined' },

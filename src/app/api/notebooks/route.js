@@ -35,13 +35,15 @@ export async function GET(request) {
 
 // Create new notebook - keep post no params
 export async function POST(request) {
-    const { name, ownerId, classId } = await request.json()
+    const loggedInData = await checkLoggedIn()
+    const ownerId = loggedInData.user?.id
+    const { name, classId } = await request.json()
 
     const newNotebook = await prisma.notebook.create({
         data: {
             name: name,
             owner: { connect: { id: ownerId } },
-            class: { connect: { id: classId } },
+            class: classId ? { connect: { id: classId } } : undefined,
         },
         include: {
             notes: true,

@@ -12,18 +12,16 @@ import MenuIcon from '@mui/icons-material/Menu'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft'
 import Container from '@mui/material/Container'
-import { TreeView } from '@mui/x-tree-view/TreeView'
-import { TreeItem } from '@mui/x-tree-view/TreeItem'
 import Typography from '@mui/material/Typography'
 import Fab from '@mui/material/Fab'
 import AddIcon from '@mui/icons-material/Add'
 import NavBar from '../components/NavBar'
-import { Icon, TextField, Tooltip } from '@mui/material'
-import Editor from './_components/Editor'
-import AddCircleIcon from '@mui/icons-material/AddCircle'
+import { TextField, Tooltip, Dialog } from '@mui/material'
 import { useSearchParams } from 'next/navigation'
-import StarIcon from '@mui/icons-material/Star'
-import StarBorderIcon from '@mui/icons-material/StarBorder'
+import NotebookTree from './_components/notebooktree'
+import { Delete } from '@mui/icons-material'
+import { Button, DialogActions, DialogTitle } from '@mui/material'
+import Editor from './_components/editor'
 
 const drawerWidth = 400
 
@@ -69,36 +67,9 @@ export default function Note() {
         setOpen(false)
     }
 
-    const handleCreateNote = (e, notebook) => {
-        e.stopPropagation()
-        e.preventDefault()
-        fetch('/api/notes', {
-            method: 'POST',
-            body: JSON.stringify({
-                title: 'Untitled Note',
-                notebookId: notebook.id,
-            }),
-        })
-            .then((response) => response.ok && response.json())
-            .then(async (note) => {
-                if (note) {
-                    await fetch('/api/notebooks', { method: 'GET' })
-                        .then((response) => response.ok && response.json())
-                        .then((notebooks) => {
-                            notebooks && setNotebooks(notebooks)
-                        })
-
-                    setActiveNote(
-                        notebooks
-                            .find((n) => n.id === notebook.id)
-                            .notes.find((n) => n.id === note.id)
-                    )
-                }
-            })
-    }
-
     const [notebooks, setNotebooks] = React.useState([])
     const [activeNote, setActiveNote] = React.useState(null)
+    const [activeNoteRename, setActiveNoteRename] = React.useState(null)
 
     // use this only once - only call this once [on load of component if array is empty]
     useEffect(() => {
@@ -107,7 +78,34 @@ export default function Note() {
             .then((notebooks) => {
                 notebooks && setNotebooks(notebooks)
             })
+        console.log('settting active note rename')
+        console.log('settting active note rename')
+        setActiveNoteRename(activeNote)
     }, [activeNote])
+
+    const handleCreateNotebook = () => {
+        fetch('/api/notebooks', {
+            method: 'POST',
+            body: JSON.stringify({ name: 'New Notebook' }),
+        })
+            .then((response) => response.ok && response.json())
+            .then((notebook) => {
+                setNotebooks([...notebooks, notebook])
+            })
+    }
+
+    const [deleteOpen, setDeleteOpen] = React.useState(false)
+
+    const deleteActiveNote = () => {
+        fetch(`/api/notes/${activeNote.id}`, { method: 'DELETE' })
+            .then((response) => response.ok && response.json())
+            .then((note) => {
+                setActiveNote(
+                    notebooks.find((notebook) => notebook.id === note.id)
+                )
+                setDeleteOpen(false)
+            })
+    }
 
     return (
         <>
@@ -162,161 +160,21 @@ export default function Note() {
                         </Typography>
                     </Box>
                     <Divider />
-
-                    <TreeView
-                        aria-label="file system navigator"
-                        defaultCollapseIcon={<ExpandMoreIcon />}
-                        defaultExpandIcon={<ChevronRightIcon />}
-                    >
-                        {notebooks.map((notebook) => {
-                            return (
-                                <TreeItem
-                                    nodeId={`notebook-${notebook.id}`}
-                                    label={
-                                        <Box
-                                            sx={{
-                                                display: 'flex',
-                                                justifyContent: 'space-between',
-                                                alignItems: 'center',
-                                            }}
-                                        >
-                                            <Box
-                                                sx={{
-                                                    display: 'flex',
-                                                    justifyContent:
-                                                        'space-between',
-                                                    alignItems: 'center',
-                                                }}
-                                            >
-                                                <Tooltip
-                                                    title={
-                                                        notebook.favorited
-                                                            ? 'Unfavorite Notebook'
-                                                            : 'Favorite Notebook'
-                                                    }
-                                                >
-                                                    <IconButton
-                                                        size="small"
-                                                        sx={{
-                                                            color: notebook.favorited
-                                                                ? '#b58500'
-                                                                : '#888888',
-                                                        }}
-                                                        onClick={(e) => {
-                                                            e.stopPropagation()
-                                                            e.preventDefault()
-                                                            fetch(
-                                                                `/api/notebooks/${notebook.id}`,
-                                                                {
-                                                                    method: 'PATCH',
-                                                                    body: JSON.stringify(
-                                                                        {
-                                                                            favorited:
-                                                                                !notebook.favorited,
-                                                                        }
-                                                                    ),
-                                                                }
-                                                            ).then(
-                                                                (response) => {
-                                                                    if (
-                                                                        response.ok
-                                                                    ) {
-                                                                        fetch(
-                                                                            '/api/notebooks',
-                                                                            {
-                                                                                method: 'GET',
-                                                                            }
-                                                                        )
-                                                                            .then(
-                                                                                (
-                                                                                    response
-                                                                                ) =>
-                                                                                    response.ok &&
-                                                                                    response.json()
-                                                                            )
-                                                                            .then(
-                                                                                (
-                                                                                    notebooks
-                                                                                ) => {
-                                                                                    notebooks &&
-                                                                                        setNotebooks(
-                                                                                            notebooks
-                                                                                        )
-                                                                                }
-                                                                            )
-                                                                    }
-                                                                }
-                                                            )
-                                                        }}
-                                                    >
-                                                        {notebook.favorited ? (
-                                                            <StarIcon />
-                                                        ) : (
-                                                            <StarBorderIcon />
-                                                        )}
-                                                    </IconButton>
-                                                </Tooltip>
-
-                                                <Typography
-                                                    variant="body1"
-                                                    sx={{ mr: 1 }}
-                                                >
-                                                    {notebook.name}
-                                                </Typography>
-                                            </Box>
-                                            <Tooltip title="Add Note">
-                                                <IconButton
-                                                    size="small"
-                                                    sx={{
-                                                        color: '#888888',
-                                                    }}
-                                                    onClick={(e) =>
-                                                        handleCreateNote(
-                                                            e,
-                                                            notebook
-                                                        )
-                                                    }
-                                                >
-                                                    <AddCircleIcon />
-                                                </IconButton>
-                                            </Tooltip>
-                                        </Box>
-                                    }
-                                >
-                                    {notebook.notes.map((note) => {
-                                        return (
-                                            <TreeItem
-                                                nodeId={`note-${note.id}`}
-                                                label={note.title}
-                                                key={`note-${note.id}`}
-                                                onClick={() =>
-                                                    fetch(
-                                                        `/api/notes/${note.id}`,
-                                                        { method: 'GET' }
-                                                    )
-                                                        .then(
-                                                            (response) =>
-                                                                response.ok &&
-                                                                response.json()
-                                                        )
-                                                        .then((note) => {
-                                                            note &&
-                                                                setActiveNote(
-                                                                    note
-                                                                )
-                                                        })
-                                                }
-                                            />
-                                        )
-                                    })}
-                                </TreeItem>
-                            )
-                        })}
-                    </TreeView>
+                    <NotebookTree
+                        notebooks={notebooks}
+                        setNotebooks={setNotebooks}
+                        activeNote={activeNote}
+                        setActiveNote={setActiveNote}
+                    />
                     <Divider />
                     <Box textAlign="center" sx={{ m: 2 }}>
                         <Tooltip title="Add Notebook">
-                            <Fab size="small" color="primary" aria-label="add">
+                            <Fab
+                                size="small"
+                                color="primary"
+                                aria-label="add"
+                                onClick={handleCreateNotebook}
+                            >
                                 <AddIcon />
                             </Fab>
                         </Tooltip>
@@ -324,50 +182,105 @@ export default function Note() {
                 </Drawer>
                 <Main open={open}>
                     <Container>
-                        {activeNote ? (
+                        {activeNote && activeNoteRename ? (
                             <>
-                                <Typography variant="h4">
-                                    {activeNote.notebook.class.name}
-                                </Typography>
-                                <Typography variant="h4">
-                                    {activeNote.notebook.name}
-                                </Typography>
-                                <TextField
-                                    label=""
-                                    value={activeNote.title}
-                                    fullWidth
-                                    variant="standard"
-                                    inputProps={{
-                                        style: {
-                                            fontSize: '2.5rem',
-                                            fontWeight: 700,
-                                        },
+                                <Box>
+                                    <Typography variant="h4">
+                                        {activeNote.notebook.class?.name}
+                                    </Typography>
+                                    <Typography variant="h4">
+                                        {activeNote.notebook.name}
+                                    </Typography>
+                                </Box>
+
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        justifyContent: 'flex-end',
                                     }}
-                                    onChange={(event) => {
-                                        setActiveNote({
-                                            ...activeNote,
-                                            title: event.target.value,
-                                        })
-                                    }}
-                                    onBlur={(event) => {
-                                        fetch(`/api/notes/${activeNote.id}`, {
-                                            method: 'PATCH',
-                                            body: JSON.stringify({
+                                >
+                                    <TextField
+                                        label=""
+                                        value={activeNoteRename.title}
+                                        fullWidth
+                                        variant="standard"
+                                        inputProps={{
+                                            style: {
+                                                fontSize: '2.5rem',
+                                                fontWeight: 700,
+                                            },
+                                        }}
+                                        onChange={(event) => {
+                                            setActiveNoteRename({
+                                                ...activeNoteRename,
                                                 title: event.target.value,
-                                            }),
-                                        }).then((response) => {
-                                            if (response.ok) {
-                                                setActiveNote({
-                                                    ...activeNote,
-                                                    title: event.target.value,
-                                                })
-                                            }
-                                        })
-                                    }}
-                                />
+                                            })
+                                        }}
+                                        onBlur={(event) => {
+                                            fetch(
+                                                `/api/notes/${activeNote.id}`,
+                                                {
+                                                    method: 'PATCH',
+                                                    body: JSON.stringify({
+                                                        title: event.target
+                                                            .value,
+                                                    }),
+                                                }
+                                            ).then((response) => {
+                                                if (response.ok) {
+                                                    setActiveNote({
+                                                        ...activeNote,
+                                                        title: event.target
+                                                            .value,
+                                                    })
+                                                }
+                                            })
+                                        }}
+                                    />
+
+                                    <Box sx={{ flexGrow: 1 }} />
+                                    <Box
+                                        sx={{
+                                            display: 'flex',
+                                            justifyContent: 'flex-end',
+                                            alignItems: 'center',
+                                        }}
+                                    >
+                                        <Tooltip title="Delete Note">
+                                            <IconButton
+                                                onClick={() => {
+                                                    setDeleteOpen(true)
+                                                }}
+                                            >
+                                                <Delete />
+                                            </IconButton>
+                                        </Tooltip>
+                                        <Dialog open={deleteOpen}>
+                                            <DialogTitle>
+                                                Are you sure you want to delete
+                                                this note?
+                                            </DialogTitle>
+                                            <DialogActions>
+                                                <Button
+                                                    onClick={deleteActiveNote}
+                                                >
+                                                    Yes
+                                                </Button>
+                                                <Button
+                                                    variant="contained"
+                                                    onClick={() =>
+                                                        setDeleteOpen(false)
+                                                    }
+                                                >
+                                                    No
+                                                </Button>
+                                            </DialogActions>
+                                        </Dialog>
+                                    </Box>
+                                </Box>
                                 <br />
                                 <br />
-                                <Editor note={activeNote} />
+                                <Editor activeNote={activeNote}></Editor>
                             </>
                         ) : (
                             // make this centered vertically and horizontally

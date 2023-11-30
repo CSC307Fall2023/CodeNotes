@@ -207,8 +207,10 @@ const NewNoteButton = () => {
   );
 }
 
+
 function ButtonRow() {
   const notebooks = ['Notebook 1', 'Notebook 2', 'Notebook 3', 'Notebook 4', 'Notebook 5', 'Notebook 6'];
+  //const notebooks = ['Notebook 1'];
   const [startIndex, setStartIndex] = useState(0);
   const notebooksPerPage = 4;
 
@@ -226,10 +228,21 @@ function ButtonRow() {
     }
   };
 
+  const NotebookScrollButton = ({icon, clickFunction}) => {
+    if (notebooks.length <= 4) {
+      return;
+    }
+    return (
+      <icon onClick={clickFunction}>
+        {icon}
+      </icon>
+    );
+  };
+
   return (
     <Grid container direction="row" justifyContent="center" alignItems="center" >
       <Grid item xl={2} md={2} container direction="row" justifyContent="right" alignItems="right">
-        {<ArrowBackIosIcon onClick={handlePrevClick}></ArrowBackIosIcon>}
+        {<NotebookScrollButton icon={<ArrowBackIosIcon />} clickFunction={handlePrevClick}></NotebookScrollButton>}
       </Grid>
       <Grid item xl={8} md={8} container direction="row" justifyContent="center" alignItems="center" >
         {notebooks.slice(startIndex, startIndex + notebooksPerPage).map((notebook, index) => (
@@ -241,7 +254,7 @@ function ButtonRow() {
         ))}
       </Grid>
       <Grid item xl={2} md={2}>
-        {<ArrowForwardIosIcon onClick={handleNextClick}></ArrowForwardIosIcon>}
+        {<NotebookScrollButton icon={<ArrowForwardIosIcon />} clickFunction={handleNextClick}></NotebookScrollButton>}
       </Grid>
     </Grid>
   );

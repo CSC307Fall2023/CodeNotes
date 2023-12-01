@@ -6,7 +6,10 @@
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
-        "lint": "next lint"
+        "lint": "next lint",
+        "jest-watch": "jest --watch",
+        "jest": "jest",
+        "jest-coverage": "jest --coverage=true --coverageDirectory=coverage"
     },
     "dependencies": {
         "@emotion/react": "^11.11.1",
@@ -35,7 +38,12 @@
         "styled-components": "^6.1.0"
     },
     "devDependencies": {
+        "@testing-library/jest-dom": "^6.1.4",
+        "@testing-library/react": "^14.0.0",
         "@types/node": "20.8.10",
+        "jest": "^29.7.0",
+        "jest-environment-jsdom": "^29.7.0",
+        "jest-fetch-mock": "^3.0.3",
         "prisma": "^5.2.0"
     }
 }

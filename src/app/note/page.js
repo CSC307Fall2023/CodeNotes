@@ -21,7 +21,7 @@ import { useSearchParams } from 'next/navigation'
 import NotebookTree from './_components/notebooktree'
 import { Delete } from '@mui/icons-material'
 import { Button, DialogActions, DialogTitle } from '@mui/material'
-import Editor from './_components/editor'
+import Editor from './_components/Editor'
 
 const drawerWidth = 400
 

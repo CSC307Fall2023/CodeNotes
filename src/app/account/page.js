@@ -101,8 +101,6 @@ export default function Account() {
             const f = new FileReader();
             f.onloadend = async () => {
                 const base64Image = f.result.split(',')[1];
-                // const imageToBase64 = require(f.result);
-
                 changePic(f.result);
                 await saveAvatarToDatabase(base64Image);
             };
@@ -110,19 +108,32 @@ export default function Account() {
         }
       }
 
-      const saveAvatarToDatabase = async (base64Image) => {
+    
+    const saveAvatarToDatabase = async (base64Image) => {
+        const formData = new FormData();
+        formData.append('avatar', base64Image);
+
+
         await fetch('/api/saveavatar', {
             method: 'PATCH',
-            body: JSON.stringify({ avatar: base64Image }),
+            body: FormData,
         }).then((res) => {
             if (res.ok) {
-                setOpen(false)
+                setOpen(false);
+                fetch('/api/users')
+                    .then((res) => res.json())
+                    .then((data) => {
+                        setUser(data);
+                        if (data.profile == null) {
+                            setOpen(true);
+                        }
+                    });
             } else {
-                res.json().then((j) => console.log('error:' + j))
+                res.json().then((j) => console.log('error:' + j));
             }
-        })
+        });
+    };
 
-    }
 
 
     async function handleProfileCreate(event) {

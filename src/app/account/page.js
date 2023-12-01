@@ -31,9 +31,13 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import EditIcon from '@mui/icons-material/Edit'
 import dayjs from 'dayjs'
 
+
+
 const avatar = {
     width: 125,
     height: 125,
+    cursor: 'pointer',
+
 }
 
 const majors = [
@@ -88,6 +92,36 @@ export default function Account() {
 
     const [user, setUser] = useState({})
     const [open, setOpen] = useState(false)
+    const [pic, changePic] = useState('user.jpg')
+
+
+    const handleClick = async (event) => {
+        const file = event.target.files[0];
+        if (file){
+            const f = new FileReader();
+            f.onloadend = async () => {
+                const base64Image = f.result.split(',')[1];
+                changePic(f.result);
+                await saveAvatarToDatabase(base64Image);
+            };
+            f.readAsDataURL(file);
+        }
+      }
+
+      const saveAvatarToDatabase = async (base64Image) => {
+        await fetch('/api/saveavatar', {
+            method: 'post',
+            body: JSON.stringify({ avatar: base64Image }),
+        }).then((res) => {
+            if (res.ok) {
+                setOpen(false)
+            } else {
+                res.json().then((j) => console.log('error:' + j))
+            }
+        })
+
+    }
+
 
     async function handleProfileCreate(event) {
         event.preventDefault()
@@ -178,7 +212,23 @@ export default function Account() {
                     paddingTop: '5%',
                 }}
             >
-                <Avatar sx={avatar}></Avatar>
+
+                <Avatar
+                sx={avatar}
+                onClick={() => document.getElementById('icon-button-file').click()}  // Trigger file input click
+                >
+                <input
+                    accept="image/*"
+                    id="icon-button-file"
+                    type="file"
+                    onChange={handleClick}
+                    style={{ display: 'none' }}
+                />
+                <img src={pic} alt="Profile" style={avatar} />
+                </Avatar>
+
+
+
                 <Typography variant="h2" component="div" sx={{ flexGrow: 1 }}>
                     {user.profile?.name}
                     <IconButton onClick={() => setOpen(true)}>

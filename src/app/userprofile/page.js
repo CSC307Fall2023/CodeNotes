@@ -81,23 +81,21 @@ export default function Note() {
             <h2>
                 <Link href="./notes">Note</Link>
             </h2>
-            <Box sx={boxStyle}>
-    
 
-                <input
-                    accept="image/*"
-                    id="icon-button-file"
-                    type="file"
-                    onChange={handleClick}
-                    style={{ display: 'none' }}
-                  />
-                  <label htmlFor="icon-button-file">
+            <input
+                accept="image/*"
+                id="icon-button-file"
+                type="file"
+                onChange={handleClick}
+                style={{ display: 'none' }}
+              />
+
+              <label htmlFor="icon-button-file">
                 <IconButton
                     color="secondary"
                     aria-label="Edit"
                     component="span"
                 >
-                
                     <Avatar
                         sx={avatar}
                         variant="circular"
@@ -105,7 +103,9 @@ export default function Note() {
                         src={pic}
                     />
                 </IconButton>
-                </label>
+              </label>
+            
+            <Box sx={boxStyle}>
 
                 <h1 onClick={handleEdit} style={{ lineHeight: '1' }}>
                     {isEditing ? (

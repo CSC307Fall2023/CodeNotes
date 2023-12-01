@@ -1,6 +1,12 @@
+import multer from 'multer';
 import { NextResponse } from 'next/server'
 import prisma from '@/lib/db'
 import { checkLoggedIn } from '@/lib/auth'
+
+const multer = multer('multer');
+const upload = multer({
+    dest: 'images'
+    })
 
 // creates a new profile for a user
 export async function POST(request) {
@@ -9,6 +15,7 @@ export async function POST(request) {
     const { name, major } = data
     const year = parseInt(data.year)
     const userId = loggedInData.user.id
+    const avatarData = request.file ? request.file.buffer : null
     let profile
     try {
         profile = await prisma.profile.create({
@@ -21,6 +28,7 @@ export async function POST(request) {
                         id: userId,
                     },
                 },
+                photo : avatarData,
             },
         })
     } catch (e) {

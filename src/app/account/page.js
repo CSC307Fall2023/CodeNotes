@@ -101,6 +101,8 @@ export default function Account() {
             const f = new FileReader();
             f.onloadend = async () => {
                 const base64Image = f.result.split(',')[1];
+                // const imageToBase64 = require(f.result);
+
                 changePic(f.result);
                 await saveAvatarToDatabase(base64Image);
             };
@@ -110,7 +112,7 @@ export default function Account() {
 
       const saveAvatarToDatabase = async (base64Image) => {
         await fetch('/api/saveavatar', {
-            method: 'post',
+            method: 'PATCH',
             body: JSON.stringify({ avatar: base64Image }),
         }).then((res) => {
             if (res.ok) {

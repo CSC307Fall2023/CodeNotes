@@ -45,23 +45,22 @@ export default function Home() {
                                 marginBottom: '1rem',
                             }}
                         >
-                            Praesent quis metus justo. Aenean sollicitudin
-                            lectus congue risus elementum, vitae porta arcu
-                            pharetra. Sed vel tincidunt tellus. In hac habitasse
-                            platea dictumst. Computer Science. Cal Poly. Nullam
-                            mollis pulvinar elit eget porttitor. Ut iaculis nisi
-                            eu mattis commodo. Proin convallis felis ex, sit
-                            amet posuere tortor suscipit quis. Nullam elementum
-                            interdum metus, nec semper orci vestibulum ac. Sed
-                            feugiat nibh id metus finibus, quis fermentum elit
-                            posuere. Nullam luctus sed leo nec rutrum. Aenean
-                            commodo ultrices velit non luctus. Ut tellus turpis,
-                            aliquet a libero nec, aliquam vehicula dui. Nulla
-                            facilisi. Donec ornare gravida est, faucibus
-                            scelerisque elit suscipit sed. Quisque eget lorem
-                            nec felis porta vehicula in in dolor. Nam dictum,
-                            ante non volutpat pellentesque, risus sapien luctus
-                            justo, vitae vestibulum magna ipsum ut velit.
+                            “Code Notes” is an innovative online platform that
+                            creates the perfect interface to take computer
+                            science notes. It allows Cal Poly students to
+                            seamlessly blend code and text all in one cohesive
+                            file. It combines the simplicity of a Google Doc
+                            with the visuals of a Jupyter/Google Colab Notebook.
+                            Users can create folders known as ‘notebooks’ to
+                            organize notes for each class. Under each notebook,
+                            users can create a ‘note’ where they can write down
+                            material they learn from their computer science
+                            class that day. Code Notes’s main features include
+                            easy code-to-text switching with an intuitive
+                            hotkey. Additionally, similar to a Google Doc, there
+                            will be a toolbar at the top of the note with a set
+                            of tools and features available for formatting and
+                            editing.
                         </Typography>
                         {status === 'authenticated' ? (
                             <Button

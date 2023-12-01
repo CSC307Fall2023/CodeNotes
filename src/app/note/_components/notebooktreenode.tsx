@@ -91,12 +91,18 @@ function NotebookTreeNode({
         })
             .then((response) => response.ok && response.json())
             .then((newNotebook) => {
-                if (activeNote) {
+                if (activeNote && activeNote.notebookId === notebook.id) {
                     setActiveNote({
                         ...activeNote,
                         notebookId: newNotebook.id,
                         notebook: newNotebook,
                     })
+                } else {
+                    fetch('/api/notebooks', { method: 'GET' })
+                        .then((response) => response.ok && response.json())
+                        .then((notebooks) => {
+                            notebooks && setNotebooks(notebooks)
+                        })
                 }
             })
     }

@@ -16,6 +16,30 @@ export async function GET(request, { params }) {
             where: {
                 id,
             },
+            include: {
+                teacher: {
+                    select: {
+                        id: true,
+                        email: true,
+                        profile: {
+                            select: {
+                                name: true,
+                            },
+                        },
+                    },
+                },
+                students: {
+                    select: {
+                        id: true,
+                        email: true,
+                        profile: {
+                            select: {
+                                name: true,
+                            },
+                        },
+                    },
+                },
+            },
         })
         return NextResponse.json(exclude(classData, ['password']))
     }

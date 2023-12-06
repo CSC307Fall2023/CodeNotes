@@ -8,6 +8,11 @@ function exclude(item, keys) {
     )
 }
 
+export async function GET(request) {
+    const classes = await prisma.class.findMany()
+    return NextResponse.json(classes.map((c) => exclude(c, ['password'])))
+}
+
 // create a new class
 export async function POST(request) {
     const { name, description, teacherId, password } = await request.json()

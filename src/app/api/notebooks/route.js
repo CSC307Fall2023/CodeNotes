@@ -1,9 +1,15 @@
 import { NextResponse } from 'next/server'
 import prisma from '@/lib/db'
+import { checkLoggedIn } from '@/lib/auth'
+
+function exclude(item, keys) {
+    return Object.fromEntries(
+        Object.entries(item).filter(([key]) => !keys.includes(key))
+    )
+}
 
 // Get all notebooks by a given user
 export async function GET(request) {
-    // for get make it just get all notebooks
     const loggedInData = await checkLoggedIn()
     if (loggedInData.loggedIn) {
         const notebooks = await prisma.notebook.findMany({
@@ -12,7 +18,16 @@ export async function GET(request) {
                     equals: loggedInData.user?.id,
                 },
             },
+            include: {
+                notes: {
+                    select: {
+                        id: true,
+                        title: true,
+                    },
+                },
+            },
         })
+
         return NextResponse.json(notebooks)
     }
     return NextResponse.json({ error: 'not signed in' }, { status: 403 })
@@ -20,13 +35,15 @@ export async function GET(request) {
 
 // Create new notebook - keep post no params
 export async function POST(request) {
-    const { name, ownerId, classId } = await request.json()
+    const loggedInData = await checkLoggedIn()
+    const ownerId = loggedInData.user?.id
+    const { name, classId } = await request.json()
 
     const newNotebook = await prisma.notebook.create({
         data: {
             name: name,
             owner: { connect: { id: ownerId } },
-            class: { connect: { id: classId } },
+            class: classId ? { connect: { id: classId } } : undefined,
         },
         include: {
             notes: true,

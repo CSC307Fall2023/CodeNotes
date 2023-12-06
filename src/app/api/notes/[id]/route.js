@@ -21,6 +21,20 @@ export async function GET(request, { params }) {
             where: {
                 id,
             },
+            include: {
+                notebook: {
+                    select: {
+                        id: true,
+                        name: true,
+                        class: {
+                            select: {
+                                id: true,
+                                name: true,
+                            },
+                        },
+                    },
+                },
+            },
         })
         return NextResponse.json(note)
     }

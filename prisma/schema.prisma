@@ -61,9 +61,10 @@ model Notebook {
   name      String
   owner     User     @relation(fields: [ownerId], references: [id])
   ownerId   Int
-  class     Class    @relation(fields: [classId], references: [id])
-  classId   Int
+  class     Class?    @relation(fields: [classId], references: [id])
+  classId   Int?
   notes     Note[]
+  favorited Boolean  @default(false)
   createdAt DateTime @default(now())
 }
 

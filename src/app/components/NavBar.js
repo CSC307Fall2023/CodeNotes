@@ -3,7 +3,6 @@
 import { Avatar, Box, Button } from '@mui/material'
 import AppBar from '@mui/material/AppBar'
 import Stack from '@mui/material/Stack'
-import CssBaseline from '@mui/material/CssBaseline'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import Login from './Login'

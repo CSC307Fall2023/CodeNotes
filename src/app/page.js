@@ -47,20 +47,26 @@ export default function Home() {
                         >
                             “Code Notes” is an innovative online platform that
                             creates the perfect interface to take computer
-                            science notes. It allows Cal Poly students to
-                            seamlessly blend code and text all in one cohesive
+                            science notes. Tailored for Cal Poly students, it
+                            seamlessly blends code and text all in one cohesive
                             file. It combines the simplicity of a Google Doc
                             with the visuals of a Jupyter/Google Colab Notebook.
                             Users can create folders known as ‘notebooks’ to
                             organize notes for each class. Under each notebook,
                             users can create a ‘note’ where they can write down
                             material they learn from their computer science
-                            class that day. Code Notes’s main features include
-                            easy code-to-text switching with an intuitive
-                            hotkey. Additionally, similar to a Google Doc, there
-                            will be a toolbar at the top of the note with a set
-                            of tools and features available for formatting and
-                            editing.
+                            class that day, including both text and code. Code 
+                            Notes’s main features includes an easy code-to-text
+                            switching with an intuitive hotkey. Similar to a 
+                            Google Doc, there will be a toolbar at the top of 
+                            the note offering a set of tools and features 
+                            available for formatting and editing. Additionally,
+                            Code Notes allows students to join classes to 
+                            seamlessly connect and syncronize their notes with 
+                            their teachers. “Code Notes” is not just a note
+                            taking platform, but a dynamic tool to connect 
+                            students and instructors. 
+
                         </Typography>
                         {status === 'authenticated' ? (
                             <Button

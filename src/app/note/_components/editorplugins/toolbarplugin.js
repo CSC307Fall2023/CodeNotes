@@ -12,6 +12,7 @@ import {
     $isRangeSelection,
     $createParagraphNode,
     $getNodeByKey,
+    CLEAR_HISTORY_COMMAND,
 } from 'lexical'
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link'
 import {
@@ -544,6 +545,7 @@ export default function ToolbarPlugin({ activeNote }) {
             editor.setEditorState(editor.parseEditorState(activeNote.content))
         }
         setSaved(true)
+        editor.dispatchCommand(CLEAR_HISTORY_COMMAND)
     }, [activeNote])
 
     useEffect(() => {

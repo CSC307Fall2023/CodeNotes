@@ -291,8 +291,12 @@ export default function Account() {
                                                 required: true,
                                                 id: 'year',
                                                 name: 'year',
+                                                onKeyDown: (e) => {
+                                                    e.preventDefault()
+                                                },
                                             },
                                         }}
+                                        disablePast
                                         defaultValue={
                                             user.profile?.year
                                                 ? dayjs(

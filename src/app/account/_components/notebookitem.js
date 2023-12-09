@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import {
     Box,
@@ -8,16 +9,15 @@ import {
     IconButton,
     Menu,
     MenuItem,
-    Divider,
     Dialog,
     DialogTitle,
     DialogContent,
-    DialogContentText,
-    DialogActions,
     TextField,
     Button,
     Tooltip,
 } from '@mui/material'
+
+import { useRouter } from 'next/navigation'
 
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import InfoIcon from '@mui/icons-material/Info'
@@ -26,6 +26,8 @@ import CheckIcon from '@mui/icons-material/Check'
 
 function NotebookItem({ notebook, fetchNotebooks }) {
     const { name, notes, id, ownerId } = notebook
+
+    const router = useRouter()
 
     const [anchorEl, setAnchorEl] = React.useState(null)
     const open = Boolean(anchorEl)
@@ -45,7 +47,7 @@ function NotebookItem({ notebook, fetchNotebooks }) {
     }
 
     const handleNotebookClick = () => {
-        console.log('nb')
+        router.push(`/note?open=true`)
     }
 
     const handleNotebookInfoClick = (event) => {

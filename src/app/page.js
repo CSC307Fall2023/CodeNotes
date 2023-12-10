@@ -55,18 +55,15 @@ export default function Home() {
                             organize notes for each class. Under each notebook,
                             users can create a ‘note’ where they can write down
                             material they learn from their computer science
-                            class that day, including both text and code. Code 
-                            Notes’s main features includes an easy code-to-text
-                            switching with an intuitive hotkey. Similar to a 
-                            Google Doc, there will be a toolbar at the top of 
-                            the note offering a set of tools and features 
-                            available for formatting and editing. Additionally,
-                            Code Notes allows students to join classes to 
-                            seamlessly connect and syncronize their notes with 
-                            their teachers. “Code Notes” is not just a note
-                            taking platform, but a dynamic tool to connect 
-                            students and instructors. 
-
+                            class that day, including both text and code.
+                            Similar to a Google Doc, there will be a toolbar at
+                            the top of the note offering a set of tools and
+                            features available for formatting and editing. Code
+                            Notes also allows students to join classes to
+                            seamlessly connect and synchronize their notes with
+                            their teachers. “Code Notes” is not just a
+                            note-taking platform but a dynamic tool to connect
+                            students and instructors.
                         </Typography>
                         {status === 'authenticated' ? (
                             <Button
@@ -88,6 +85,9 @@ export default function Home() {
                             src="/CodeNotes.png"
                             alt="CodeNotes"
                             width="100%"
+                            style={{
+                                border: '1px solid black',
+                            }}
                         />
                     </Grid>
                 </Grid>

@@ -9,6 +9,7 @@
         "lint": "next lint",
         "jest-watch": "jest --watch",
         "jest": "jest",
+        "test": "jest",
         "jest-coverage": "jest --coverage=true --coverageDirectory=coverage"
     },
     "dependencies": {
@@ -38,12 +39,13 @@
         "styled-components": "^6.1.0"
     },
     "devDependencies": {
-        "@testing-library/jest-dom": "^6.1.4",
-        "@testing-library/react": "^14.0.0",
+        "@testing-library/jest-dom": "^6.1.5",
+        "@testing-library/react": "^14.1.2",
         "@types/node": "20.8.10",
         "jest": "^29.7.0",
         "jest-environment-jsdom": "^29.7.0",
         "jest-fetch-mock": "^3.0.3",
+        "node-fetch": "^3.3.2",
         "prisma": "^5.2.0"
     }
 }

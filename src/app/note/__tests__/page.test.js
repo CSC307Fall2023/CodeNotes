@@ -1,4 +1,5 @@
 import Note from '../page.js';
+import NotebookTree from '../_components/notebooktree.tsx'
 import { render, act, fireEvent, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { enableFetchMocks } from 'jest-fetch-mock'
@@ -13,6 +14,37 @@ fetchMock.fetchOnce = (data) => {
   });
 };
 */
+
+describe ('notebook tree', () => {
+    beforeEach(() => {
+        enableFetchMocks();
+    })
+
+    afterEach(() => {
+        fetch.resetMocks();
+    })
+
+    it('should have no notebooks', async () => {
+        const notebooks = [];
+        fetch.once(JSON.stringify(notebooks));
+        let tree;
+        await act(async () => {
+            tree = render(
+            <NotebookTree
+                notebooks={notebooks}
+                setNotebooks={setNotebooks}
+                activeNote={activeNote}
+                setActiveNote={setActiveNote}
+            />
+            );
+        })
+    })
+    /*
+    const [notebooks, setNotebooks] = React.useState([])
+    const [activeNote, setActiveNote] = React.useState(null)
+    const [activeNoteRename, setActiveNoteRename] = React.useState(null)
+    */
+})
 
 describe ('note page', () => {
     beforeEach(() => {
@@ -31,7 +63,7 @@ describe ('note page', () => {
     //     expect(screen.findByText('test notebook1')).toBeDefined(); 
     // })
 
-// test notebook tree - one test for empty, one test for with data
+// test notebook tree - one test for empty notebooks (there are no notebooks), one test for with data
 // then go to thursday office hours and ask about this test  v  so we can look at it again 
 
     it('should have one notebook', async () => {

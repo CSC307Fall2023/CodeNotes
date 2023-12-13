@@ -1,19 +1,18 @@
 import Note from '../page.js';
-import { render, act, fireEvent } from '@testing-library/react'
+import { render, act, fireEvent, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { enableFetchMocks } from 'jest-fetch-mock'
 import { checkCustomRoutes } from 'next/dist/lib/load-custom-routes';
-import fetchMock from 'node-fetch';
-
-jest.mock('node-fetch');
 
 // mock setup
+/*
 fetchMock.fetchOnce = (data) => {
   fetchMock.mockResolvedValueOnce({
     ok: true,
     json: async () => JSON.parse(data),
   });
 };
+*/
 
 describe ('note page', () => {
     beforeEach(() => {
@@ -32,12 +31,15 @@ describe ('note page', () => {
     //     expect(screen.findByText('test notebook1')).toBeDefined(); 
     // })
 
+// test notebook tree - one test for empty, one test for with data
+// then go to thursday office hours and ask about this test  v  so we can look at it again 
+
     it('should have one notebook', async () => {
         const initialNotebooks = [{ name: 'test notebook1' }];
         const initialActiveNote = { id: 1, notebook: { name: 'test notebook1' }, title: 'Test Note' };
 
         // Set up the fetch mock response
-        fetchMock.fetchOnce(JSON.stringify(initialNotebooks));
+        fetch.once(JSON.stringify(initialNotebooks));
 
         // Render the component within an act to handle asynchronous updates
         let note;
@@ -51,7 +53,7 @@ describe ('note page', () => {
             );
 
         // Wait for the asynchronous operation to complete
-        await screen.findByText('test notebook1');
+        let notebook = screen.findByText('test notebook1');
 
         // expect(note.container).toHaveTextContent('test notebook1');
         expect(screen.findByText('test notebook1')).toBeDefined(); 

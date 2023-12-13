@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import { Grid, Typography, Pagination, Fade } from '@mui/material'
+import {
+    Grid,
+    Typography,
+    Pagination,
+    Fade,
+    Box,
+    IconButton,
+} from '@mui/material'
 import NotebookItem from './notebookitem'
+import { ArrowBackIos, ArrowForwardIos } from '@mui/icons-material'
 function NotebookRow() {
     const [notebooks, setNotebooks] = useState([])
     const [totalPages, setTotalPages] = useState(0)
@@ -47,64 +55,96 @@ function NotebookRow() {
                             exit: 0,
                         }}
                     >
-                        <Grid
-                            container
-                            spacing={2}
+                        <Box
                             sx={{
                                 display: 'flex',
                                 flexDirection: 'row',
-                                alignItems: 'center',
                                 justifyContent: 'center',
+                                alignItems: 'center',
+                                width: '100%',
                             }}
-                            maxWidth={'md'}
                         >
-                            {notebooks ? (
-                                notebooks.map((notebook) => (
-                                    <Grid
-                                        item
-                                        xs={12}
-                                        sm={6}
-                                        md={4}
-                                        lg={3}
-                                        key={notebook.id}
-                                    >
-                                        <NotebookItem
-                                            notebook={notebook}
-                                            fetchNotebooks={async (pagenum) => {
-                                                console.log('setNotebooks')
-                                                if (pagenum === undefined) {
-                                                    pagenum = page
-                                                }
-                                                await fetch(
-                                                    `/api/notebooks/paginate?page=${pagenum}&size=4`
-                                                )
-                                                    .then((res) => res.json())
-                                                    .then((data) => {
-                                                        setNotebooks(data)
-                                                    })
-                                                await fetch(
-                                                    `/api/notebooks/paginate/numpages?size=4`
-                                                )
-                                                    .then((res) => res.json())
-                                                    .then((data) => {
-                                                        setTotalPages(data)
-                                                    })
-                                            }}
-                                        />
-                                    </Grid>
-                                ))
-                            ) : (
-                                <></>
-                            )}
-                        </Grid>
+                            <IconButton
+                                aria-label="back"
+                                onClick={() => {
+                                    if (page > 1) {
+                                        handlePage(null, page - 1)
+                                    }
+                                }}
+                                disabled={page === 1}
+                            >
+                                <ArrowBackIos></ArrowBackIos>
+                            </IconButton>
+
+                            <Grid
+                                container
+                                spacing={2}
+                                sx={{
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                }}
+                            >
+                                {notebooks ? (
+                                    notebooks.map((notebook) => (
+                                        <Grid
+                                            item
+                                            xs={12}
+                                            sm={6}
+                                            md={4}
+                                            lg={3}
+                                            key={notebook.id}
+                                        >
+                                            <NotebookItem
+                                                notebook={notebook}
+                                                fetchNotebooks={async (
+                                                    pagenum
+                                                ) => {
+                                                    console.log('setNotebooks')
+                                                    if (pagenum === undefined) {
+                                                        pagenum = page
+                                                    }
+                                                    await fetch(
+                                                        `/api/notebooks/paginate?page=${pagenum}&size=4`
+                                                    )
+                                                        .then((res) =>
+                                                            res.json()
+                                                        )
+                                                        .then((data) => {
+                                                            setNotebooks(data)
+                                                        })
+                                                    await fetch(
+                                                        `/api/notebooks/paginate/numpages?size=4`
+                                                    )
+                                                        .then((res) =>
+                                                            res.json()
+                                                        )
+                                                        .then((data) => {
+                                                            setTotalPages(data)
+                                                        })
+                                                }}
+                                            />
+                                        </Grid>
+                                    ))
+                                ) : (
+                                    <></>
+                                )}
+                            </Grid>
+                            <IconButton
+                                aria-label="forward"
+                                onClick={() => {
+                                    if (page < totalPages) {
+                                        handlePage(null, page + 1)
+                                    }
+                                }}
+                                sx={{
+                                    marginLeft: 'auto',
+                                }}
+                                disabled={page === totalPages}
+                            >
+                                <ArrowForwardIos></ArrowForwardIos>
+                            </IconButton>
+                        </Box>
                     </Fade>
-                    <br />
-                    <Pagination
-                        count={totalPages}
-                        page={page}
-                        onChange={handlePage}
-                        color="primary"
-                    />
                 </>
             ) : (
                 <Typography variant="h6" component="div">

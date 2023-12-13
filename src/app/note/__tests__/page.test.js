@@ -56,13 +56,7 @@ describe ('note page', () => {
         // expect(note.container).toHaveTextContent('test notebook1');
         expect(screen.findByText('test notebook1')).toBeDefined(); 
   });
-       //render(<Note/>); 
-        // let note; 
-        // await act(async () => { 
-        //    note = render(<Note/>); 
-        //  });
-        // //expect(screen.findByText('test notebook1')).toBeDefined();
-        // await screen.findByText('test notebook1');
+       
       });
 
     

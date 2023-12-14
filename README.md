@@ -30,6 +30,28 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+To add a teacher and a class to the database, run the following curl commands to add data
+
+```bash
+curl --location 'http://localhost:3000/api/users/newteacher' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "email" : "teacher@gmail.com",
+    "password" : "password"
+}'
+```
+
+```bash
+{
+    "name" : "CSC 307",
+    "password" : "password",
+    "description" : "Software Development",
+    "teacherId" : 4
+}
+```
+
+This adds a class, called CSC 307, which has an ID of 1 and a password of 'password'
+
 
 ## Look at our database
 

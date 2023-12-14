@@ -295,6 +295,7 @@ function NotebookTreeNode({
                 <MenuItem
                     onClick={(e) => {
                         handleCreateNote(e, notebook)
+                        handleClose()
                     }}
                 >
                     <AddCircleIcon sx={{ mr: 1 }} />

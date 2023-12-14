@@ -42,12 +42,14 @@ curl --location 'http://localhost:3000/api/users/newteacher' \
 ```
 
 ```bash
-{
+curl --location 'http://localhost:3000/api/classes' \
+--header 'Content-Type: application/json' \
+--data '{
     "name" : "CSC 307",
     "password" : "password",
     "description" : "Software Development",
     "teacherId" : 4
-}
+}'
 ```
 
 This adds a class, called CSC 307, which has an ID of 1 and a password of 'password'
